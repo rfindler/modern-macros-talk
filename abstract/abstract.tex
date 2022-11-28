@@ -1,13 +1,16 @@
 \documentclass[runningheads]{llncs}
 \usepackage[T1]{fontenc}
 \usepackage{pslatex}
-\usepackage{cutwin}
-\cutfuzz
+\usepackage{setspace}
+\usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{hyperref}
+\usepackage{enumitem}% http://ctan.org/pkg/enumitem
+\newcommand{\MoreSpace}{\spaceskip 4pt plus 1pt minus 1pt}
+\newcommand{\LessSpace}{\spaceskip 2pt plus 1pt minus 1pt}
+% Default 2.5pt plus 1.5pt minus 0.6pt
 \begin{document}
-\clubpenalty=150  %% this cancels \clubpenalty=10000 in llncs.cls and also makes the shaped cut out work
 \title{Language-oriented Programming in Racket: Embodying 60 Years of Work on Macros\\in an Extensible Compiler Front-end}
 \author{Robert Bruce Findler\orcidID{0000-0002-4245-2000}}
 \authorrunning{Robert Bruce Findler}
@@ -18,14 +21,10 @@
 %
 \maketitle              % typeset the header of the contribution
 
-\newcommand*{\mycut}{%
-        0.2\textwidth, 0.4\textwidth,
-        0.2\textwidth, 0.4\textwidth
-}
-
-
-%\renewcommand*{\putstuffinpic}{%
-%  \put(0,-8){\makebox(0,0){\includegraphics[scale=.5]{racket-logo.eps}}}}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=125mm,yshift=-157mm,anchor=north west] at (current page.north west){%
+    \includegraphics[scale=.5]{racket-logo.eps}};
+\end{tikzpicture}
 
 Racket's approach to language-oriented programming facilitates and
 simplifies the implementation of programming languages by providing an
@@ -44,25 +43,26 @@ macro system design:
 \begin{itemize}
 
 \item \textbf{the data structure for abstract syntax trees} and how it
-  manages identifiers, avoiding accidental clashes;
+  manages binding, avoiding accidental clashes;
 
 \item \textbf{the minimal barrier between ``object'' and ``subject''
   languages}, meaning that as soon as a new language is defined it
-  is easily used to build the next language;
+  is easily used to build\\ the next language;
 
-\item \textbf{the way a set of macros are distributed in separate
-  files and yet together form a single compiler}, which allows one
-  language to reuse parts of another language, even when the two
-  languages are more different than alike.
+\item 
+\textbf{the way a set of macros are spread across multiple\\ files and
+  yet together form a single compiler}, which\\ allows one language to
+reuse parts of another one,\\ even when the two languages are not similar.
 \end{itemize}
 
-All three of these design aspects are deeply connected to scope, a
-theme that permeates the talk. Racket's sophisticated handling of
-scope even goes beyond language definition, enabling reuse for
-developer tools like the compilation manager, the debugger, and the
-IDE. The talk will draw these connections and show how they point the
-way for future work to automatically or nearly automatically provide
-sophisticated tool support for programmers writing code in
-Racket-based languages.
+All three of these design aspects are deeply connected \\ to scope, a
+theme that permeates the talk. Racket's so-\\
+{\MoreSpace{}phisticated handling of scope even goes beyond lan-}\\
+{\setstretch{.9}guage definition, enabling reuse for developer tools like}\\ 
+like the compilation manager, the debugger, and the IDE.\\
+{\MoreSpace{}The talk will draw these connections and show how they}\\
+point the way for future work to automatically or nearly auto-\\
+{\MoreSpace{}matically provide sophisticated tool support for programmers}\\ 
+writing code in Racket-based languages.
 
 \end{document}
