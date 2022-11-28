@@ -8,10 +8,12 @@
 \usepackage{hyperref}
 \usepackage{enumitem}% http://ctan.org/pkg/enumitem
 \newcommand{\MoreSpace}{\spaceskip 4pt plus 1pt minus 1pt}
-\newcommand{\LessSpace}{\spaceskip 2pt plus 1pt minus 1pt}
+\newcommand{\LittleMoreSpace}{\spaceskip 3pt plus 1pt minus 1pt}
+\newcommand{\LittleLessSpace}{\spaceskip 2pt plus 1pt minus 1pt}
+\newcommand{\LessSpace}{\spaceskip 1.5pt plus 1pt minus 1pt}
 % Default 2.5pt plus 1.5pt minus 0.6pt
 \begin{document}
-\title{Language-oriented Programming in Racket: Embodying 60 Years of Work on Macros\\in an Extensible Compiler Front-end}
+\title{Modern Macros: Racket's Approach to Language-Oriented Programming}
 \author{Robert Bruce Findler\orcidID{0000-0002-4245-2000}}
 \authorrunning{Robert Bruce Findler}
 \institute{Northwestern University, Evanston IL 60208, USA\\
@@ -22,18 +24,78 @@
 \maketitle              % typeset the header of the contribution
 
 \begin{tikzpicture}[remember picture,overlay]
-    \node[xshift=125mm,yshift=-157mm,anchor=north west] at (current page.north west){%
+    \node[xshift=125mm,yshift=-134mm,anchor=north west] at (current page.north west){%
     \includegraphics[scale=.5]{racket-logo.eps}};
 \end{tikzpicture}
 
+
+% new idea for the abstract, courtesy Matthias:
+%   It’s the current endpoint of an evolution that started with Lisp’s
+%   1964 macros.  What is it: a programmable front end. What does it
+%   enable? It is used for .. notational extensions, #langs, hosted DSLs,
+%   and much more. What problems does it pose: tools for
+%   extensible/programmable PLs are difficult. Here are some brand-new
+%   ideas.
+
+Racket's approach to macros is the latest point in an evolution that
+started in 1963 with Lisp's macros. Building on those ideas, Racket's
+macros have evolved so far that, to a modern macro programmer, macros
+are more helpfully understood as extending and manipulating the
+compiler's front end than as a mechanism for textual substitution or
+syntactic abstraction.
+
+Having a malleable compiler front end naturally enables succicient
+implementations of many languages and a look at the Racket ecosystem
+reveals a wealth of examples. Scribble, a language for writing texts
+uses a \LaTeX{} inspired syntax and has been used to write thousands of
+pages of documentation, dozens of research papers, and at least two
+books. Redex, a language for writing and testing operational
+semantics, has helped numerous researchers debug their semantics and
+explore their ideas. Racket's sister-language, Typed Racket, boasts
+numerous type-level innovations and\\
+%
+{\MoreSpace{} full-fledged interoperability with untyped code. Beside these}\\
+%
+large efforts, Racket's macros also have enabled extensions\\
+%
+{\LittleMoreSpace{} on the small and medium scales as well, being the basis}\\
+%
+{\LessSpace{} for its pattern matcher, class system, contract system, fam-} \\
+%
+ily of \texttt{for} loops and more.
+
+In this talk, I'll discuss three essential principles of\\
+%
+{\LessSpace{} Racket's macro system design, showing how they enable}\\
+%
+{\LessSpace{} language-oriented programming and provide an intellec-}\\
+%
+{\LessSpace{} tual foundation for understanding modern macros. More}\\
+%
+recently, Racket's macro system has started to move be-\\
+%
+yond merely the compiler's front end and I'll discuss new\\
+%
+{\LessSpace{} developments that build on those principles, leading towards}\\
+%
+nearly-automatic IDE support for programming languages in\\ 
+% 
+the Racket ecosystem.
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Racket's approach to language-oriented programming facilitates and
 simplifies the implementation of programming languages by providing an
-extensible and flexible compiler front end. This front end is, in
-truth, a sophisticated macro system that traces its roots back to the
+extensible and flexible compiler front end. 
+
+... new idea: brag about the breadth and depth of the languages built with racket.
+
+This front end is a sophisticated macro system that traces its roots back to the
 mid 1950s. In those days, macros were mere text-based preprocessors,
 divorced from the programming language they operated on (a tradition
-that continues only slightly changed today in some programming
-languages, alas). In the intervening years, macros have matured and
+that continues only slightly improved in some programming
+languages today, alas). In the intervening years, macros have matured and
 become a full-fledged part of the programming language itself, making
 them far more powerful and general.
 
@@ -66,3 +128,29 @@ point the way for future work to automatically or nearly auto-\\
 writing code in Racket-based languages.
 
 \end{document}
+
+
+
+Title: Why so long? Why so precise? Cut subtitle?
+
+First sentence: 3 lines? What is LOP? Start with “The idea of language-oriented programming aims to ..”  Then the second sentence could be “Racket’s approach to LOP relies on 60 years of research on opening the front-end of the compiler.”
+
+Cut “in truth”. It’s late 50s at best. Lispers date macros to around 63 or so. Other macros don’t count. The battle of “text macros” vs “real macros” doesn’t belong into the abstract. You can spend 1 slide on it.  Cut the whole side track. It is extremely distracting.
+
+tail —> tale or talk?
+
+cut “a theme that ..”
+
+add “documentation”?
+
+;; —
+
+Content:
+
+It seems to me that the last sentence is the actual point of your talk. If so, perhaps the title should be “Tool Support for Language Oriented Programming” and the abstract should advertise a lot more of what you have to say in this direction.
+
+If I misunderstood, the last sentence needs to go.
+
+As for the three central aspects, I have a hard time figuring out what this tells me about your talk. But hey, I like surprises  too :-)
+
+— Matthias
