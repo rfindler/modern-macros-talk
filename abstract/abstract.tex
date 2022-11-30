@@ -13,7 +13,7 @@
 \newcommand{\LessSpace}{\spaceskip 1.5pt plus 1pt minus 1pt}
 % Default 2.5pt plus 1.5pt minus 0.6pt
 \begin{document}
-\title{Modern Macros: Racket's Approach to Language-Oriented Programming}
+\title{Modern Macros}
 \author{Robert Bruce Findler\orcidID{0000-0002-4245-2000}}
 \authorrunning{Robert Bruce Findler}
 \institute{Northwestern University, Evanston IL 60208, USA\\
@@ -23,11 +23,10 @@
 %
 \maketitle              % typeset the header of the contribution
 
-\begin{tikzpicture}[remember picture,overlay]
-    \node[xshift=125mm,yshift=-134mm,anchor=north west] at (current page.north west){%
-    \includegraphics[scale=.5]{racket-logo.eps}};
-\end{tikzpicture}
-
+%\begin{tikzpicture}[remember picture,overlay]
+%    \node[xshift=125mm,yshift=-134mm,anchor=north west] at (current page.north west){%
+%    \includegraphics[scale=.5]{racket-logo.eps}};
+%\end{tikzpicture}
 
 % new idea for the abstract, courtesy Matthias:
 %   It’s the current endpoint of an evolution that started with Lisp’s
@@ -45,41 +44,36 @@ compiler's front end than as a mechanism for textual substitution or
 syntactic abstraction.
 
 Having a malleable compiler front end naturally enables succinct
-iimplementations of many languages and a look at the Racket ecosystem
-reveals a wealth of examples. Scribble, a language for writing texts
-uses a \LaTeX{} inspired syntax and has been used to write thousands of
-pages of documentation, dozens of research papers, and at least two
-books. Redex, a language for writing and testing operational
-semantics, has helped numerous researchers debug their semantics and
-explore their ideas. Racket's sister-language, Typed Racket, boasts
-numerous type-level innovations and\\
-%
-{\MoreSpace{} full-fledged interoperability with untyped code. Beside these}\\
-%
-large efforts, Racket's macros also have enabled extensions\\
-%
-{\LittleMoreSpace{} on the small and medium scales as well, being the basis}\\
-%
-{\LessSpace{} for its pattern matcher, class system, contract system, fam-} \\
-%
-ily of \texttt{for} loops and more.
+implementations of many domain-specific and embedded languages. A look
+at the Racket ecosystem reveals a wealth of examples. Scribble, a
+language for writing texts uses a \LaTeX{} inspired syntax and has
+been used to write thousands of pages of documentation, dozens of
+research papers, and at least two books. Redex, a language for writing
+and testing operational semantics, has helped numerous researchers
+debug their semantics and explore their ideas. Racket's
+sister-language, Typed Racket, boasts numerous type-level innovations
+and full-fledged interoperability with untyped code. Beside these
+large efforts, Racket's macros also have enabled extensions on the
+medium scale as well, being the basis for its pattern matcher, class
+system, contract system, family of \texttt{for} loops, and more. On
+the small scale, project-specific macros are common in Racket
+codebases, as Racket programmers can lift the language of discourse
+from general programming-language constructs to project-specific
+concerns, aiding program comprehension and shrinking codebase size.
 
-In this talk, I'll discuss three essential principles of\\
-%
-{\LessSpace{} Racket's macro system design, showing how they enable}\\
-%
-{\LessSpace{} language-oriented programming and provide an intellec-}\\
-%
-{\LessSpace{} tual foundation for understanding modern macros. More}\\
-%
-recently, Racket's macro system has started to move be-\\
-%
-yond merely the compiler's front end and I'll discuss new\\
-%
-{\LessSpace{} developments that build on those principles, leading towards}\\
-%
-nearly-automatic IDE support for programming languages in\\ 
-% 
-the Racket ecosystem.
+In this talk, I'll discuss the essential aspects of Racket's macro
+system design, showing how they enable language-oriented programming
+and provide an intellectual foundation for understanding modern
+macros. These aspects all revolve around the idea of automatically
+managing scope and taking advantage of its automatic management.
+
+Going beyond implementing languages, the data structures supporting
+automatic scope management have proven central to DrRacket (the Racket
+IDE), specifically its rename refactoring and its ability to navigate
+codebases via uses and definitions of identifiers. Recently,
+Racketeers have begun to explore how more aspects of Racket's macro
+system can support sophisticated IDE tooling for programming languages
+in the Racket ecosystem. I will try to paint a picture of where we
+hope to go with that work.
 
 \end{document}
