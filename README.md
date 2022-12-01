@@ -49,16 +49,19 @@ On 3: One thing that comes to mind is bootstrapping -- specifically that we don'
 
 -----------------------------
 
+part 1:
 .... introduce idea: open compiler. What does this mean?
   -- mix and match "cases" of the compiler.
      show a recursive function that gets broken apart with the
      cases distributed and the recursive iteration step broken out.
 
+part 2:
 .... just how far can you go with an open compiler front end? Isn't
      the back end where the good stuff happens?
 
      demo some languages
 
+part 3:
 .... bring in key elements
 
 syntax-object data structure:
@@ -77,8 +80,15 @@ module system:
 one thing got lost: the accumulator argument (where to bring this in?)
   show how we get it back.
 
+part 4:
 .... explain how they work together to define a language
 
-an example that illustrates the power
+an example that illustrates the power (enum case)
 
-.... into the IDE(?)
+part 5:x
+.... into the IDE
+
+    take advantage of the syntax objects; get binding arrows "for free"
+
+    want to take advantage of more: submodules are a generalization of meta-data
+      show how a keybinding can work
