@@ -12,6 +12,9 @@
 \newcommand{\LittleLessSpace}{\spaceskip 2pt plus 1pt minus 1pt}
 \newcommand{\LessSpace}{\spaceskip 1.5pt plus 1pt minus 1pt}
 % Default 2.5pt plus 1.5pt minus 0.6pt
+\setlength{\fboxsep}{0pt}
+\newcommand{\Fine}[2]{\fbox{\makebox[#1][s]{\hbox to \parindent{}#2}}\\} % "F"irst Line
+\newcommand{\Line}[2]{\fbox{\makebox[#1][s]{#2}}\\}
 \begin{document}
 \title{Modern Macros}
 \author{Robert Bruce Findler\orcidID{0000-0002-4245-2000}}
@@ -23,10 +26,10 @@
 %
 \maketitle              % typeset the header of the contribution
 
-%\begin{tikzpicture}[remember picture,overlay]
-%    \node[xshift=125mm,yshift=-134mm,anchor=north west] at (current page.north west){%
-%    \includegraphics[scale=.5]{racket-logo.eps}};
-%\end{tikzpicture}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=125mm,yshift=-155mm,anchor=north west] at (current page.north west){%
+    \includegraphics[scale=.5]{racket-logo.eps}};
+\end{tikzpicture}
 
 % new idea for the abstract, courtesy Matthias:
 %   It’s the current endpoint of an evolution that started with Lisp’s
@@ -61,19 +64,22 @@ codebases, as Racket programmers can lift the language of discourse
 from general programming-language constructs to project-specific
 concerns, aiding program comprehension and shrinking codebase size.
 
-In this talk, I'll discuss the essential aspects of Racket's macro
-system design, showing how they enable language-oriented programming
-and provide an intellectual foundation for understanding modern
-macros. These aspects all revolve around the idea of automatically
-managing scope and taking advantage of its automatic management.
+{\MoreSpace{}In this talk, I'll discuss the essential aspects of Racket's}\\
+{\MoreSpace{}macro system design, showing how they enable language-}\\
+{oriented programming and provide an intellectual founda-}\\
+{tion for understanding modern macros. These aspects all}\\
+{\LittleMoreSpace{}all center on the idea of automatically managing scope}\\
+{and taking advantage of its automatic management.}
 
-Going beyond implementing languages, the data structures supporting
-automatic scope management have proven central to DrRacket (the Racket
-IDE), specifically its rename refactoring and its ability to navigate
-codebases via uses and definitions of identifiers. Recently,
-Racketeers have begun to explore how more aspects of Racket's macro
-system can support sophisticated IDE tooling for programming languages
-in the Racket ecosystem. I will try to paint a picture of where we
+{\MoreSpace{}Going beyond implementing languages, the data}\\
+{\LessSpace{}structures supporting automatic scope management have}\\
+{\LittleLessSpace{}proven central to DrRacket (the Racket IDE), specifical-}\\
+{ly its rename refactoring and its ability to navigate code-}\\
+{\LessSpace{}bases via uses and definitions of identifiers. Recently, Rack-}\\
+{eteers have begun to explore how more aspects of Racket's}\\
+{macro system can support sophisticated IDE tooling for pro-}\\
+{gramming languages in the Racket ecosystem. I will try to paint}\\
+a picture of where we
 hope to go with that work as well.
 
 \end{document}
