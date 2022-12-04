@@ -84,6 +84,12 @@ part 4:
 .... explain how they work together to define a language
 
 an example that illustrates the power (enum case)
+prereqs: define-syntax
+         define-syntax that binds a non-transformer
+         syntax-local-value
+         syntax-parse plus #'
+         `case` (that's what it compiles into)
+
 
 part 5:x
 .... into the IDE
