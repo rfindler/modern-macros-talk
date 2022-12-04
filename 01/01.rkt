@@ -1,15 +1,9 @@
 #lang racket
-(require "../setup.rkt" slideshow "open-compiler.rkt"
-         pict/shadow)
+(require "../setup.rkt" "open-compiler.rkt" "../title.rkt"
+         slideshow slideshow/play pict/shadow)
 
 (define (introduction)
-  (slide
-   (scale (vc-append
-           10
-           (t "Modern Macros")
-           (t "as an")
-           (t "Open Compiler"))
-          2))
+  (title->thesis)
 
   (slide
    (scale (vc-append
@@ -36,6 +30,39 @@
                        client-w client-h))
   
   (open-compiler))
+
+(define (title->thesis)
+  (define title (scale (t "Modern Macros") 2))
+  (define title-phase1 (ghost (launder title)))
+  (define title-phase2 (ghost (launder title)))
+  (define phase1
+    (cc-superimpose
+     plt-title-background
+     (vc-append
+      title-phase1
+      (blank 0 100)
+      (vl-append
+       (t "Robby Findler")
+       (t "Northwestern University")))))
+  (define phase2
+    (vc-append
+     20
+     title-phase2
+     (scale (t "are an") 2)
+     (scale (t "Open Compiler") 2)))
+
+  (play-n
+   (λ (n1)
+     (define before-n n1)
+     (define after-n (- 1 n1))
+     (slide-pict
+      (cc-superimpose
+       (cellophane phase1 (- 1 before-n))
+       (cellophane phase2 (- 1 after-n)))
+      title
+      title-phase1
+      title-phase2
+      before-n))))
 
 (define (paper name)
   (define filename
