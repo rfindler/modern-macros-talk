@@ -3,7 +3,8 @@
 (require (for-syntax syntax/parse racket)
          slideshow
          slideshow/code
-         slideshow/play)
+         slideshow/play
+         "../setup.rkt")
 
 (provide enum-slides)
 
@@ -225,7 +226,8 @@
     
     (colorize
      (text "enum-case: mismatched elements"
-           `(italic bold . modern)  (current-font-size))
+           (cons 'italic (current-code-font))
+           (current-font-size))
      "red"))))
 
 (module+ main (enum-slides))
