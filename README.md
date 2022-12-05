@@ -91,7 +91,7 @@ prereqs: define-syntax
          `case` (that's what it compiles into)
 
 
-part 5:x
+part 5:
 .... into the IDE
 
     take advantage of the syntax objects; get binding arrows "for free"
