@@ -1,5 +1,6 @@
 #lang racket
-(require "../setup.rkt"
+(require "../lib/setup.rkt"
+         "../lib/util.rkt"
          slideshow
          slideshow/play
          slideshow/code)
@@ -37,7 +38,6 @@
                                              (if x x b)))])
           (code [(let ([x a]) b)  (let ([x (compile a)])
                                     (compile b))])))
-
 
   (define (slide-and-scale/all main from n)
     (for/fold ([main main])
@@ -125,8 +125,6 @@
 (define (box-size-interpolate box1 box2 n)
   (blank (interpolate (pict-width box1) (pict-width box2) n)
          (interpolate (pict-height box1) (pict-height box2) n)))
-
-(define (interpolate v1 v2 n) (+ v1 (* n (- v2 v1))))
 
 (module+ main
   (open-compiler))

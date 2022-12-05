@@ -4,7 +4,7 @@
          slideshow
          slideshow/code
          slideshow/play
-         "../setup.rkt")
+         "../lib/setup.rkt")
 
 (provide enum-slides)
 
