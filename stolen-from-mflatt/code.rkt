@@ -8,7 +8,8 @@
          racket/math
          racket/list
          "script.rkt"
-         "color.rkt")
+         "color.rkt"
+         slideshow)
 
 (provide premade-or-example
          just-or-example
@@ -24,17 +25,6 @@
          scope4
          scope5
          scope6)
-
-(define (current-font-size) 32)
-(get-current-code-font-size current-font-size)
-(define gap-size 24)
-
-(define (t s)
-  (text s '("Gill Sans" . swiss) (current-font-size)))
-(define (it s)
-  (text s '(italic "Gill Sans" . swiss) (current-font-size)))
-(define (tt s)
-  (text s (current-code-font) (current-font-size)))
 
 (define (shift find dx dy)
   (lambda (p q)
