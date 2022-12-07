@@ -58,7 +58,7 @@
 (define introduce1-color (make-color 219 109 0)) ; matching `intro1-scope`
 (define introduce2-color "forestgreen") ; matching `scope4`
 
-(define arrow-color "purple")
+(define arrow-color "red")
 
 (define-syntax-rule (intro2 e)
   (colorize
@@ -76,16 +76,28 @@
                         code:blank))
 
 (define (pin-bind-line p f t
+                       #:line-width [the-line-width 3]
                        #:rev? [rev? #f]
-                       #:color [color arrow-color])
-  (define find-top (shift ct-find 0 (* 1/4 (pict-height f))))
-  (define find-bottom (shift cb-find 0 (* -1/4 (pict-height t))))
-  (pin-arrow-line (/ (current-font-size) 2)
-                  p
-                  f (if rev? find-bottom find-top)
-                  t (if rev? find-top find-bottom)
-                  #:color color
-                  #:line-width 3))
+                       #:color [color arrow-color]
+                       #:center? [center? #f]
+                       #:start-with-dot? [start-with-dot? #f])
+  (define find-top (if center? cc-find (shift ct-find 0 (* 1/4 (pict-height f)))))
+  (define find-bottom (if center? cc-find (shift cb-find 0 (* -1/4 (pict-height t)))))
+  (define without-dot
+    (pin-arrow-line (/ (current-font-size) 2)
+                    p
+                    f (if rev? find-bottom find-top)
+                    t (if rev? find-top find-bottom)
+                    #:color color
+                    #:line-width the-line-width))
+  (if start-with-dot?
+      (let-values ([(x y) (find-bottom without-dot f)])
+        (pin-over
+         without-dot
+         (- x (* the-line-width 1.5))
+         (- y (* the-line-width 1.5))
+         (colorize (disk (* the-line-width 3)) color)))
+      without-dot))
 
 (define (pad-use-of-or p)
   (lt-superimpose p
@@ -121,19 +133,19 @@
     (define lexical-title "Lexical Scope")
     
     (define (bind-orig p)
-      (let* ([p (pin-bind-line p x2 x1)]
-             [p (pin-bind-line p x4 x3)]
-             [p (pin-bind-line p y2 y1)])
+      (let* ([p (pin-bind-line p x2 x1 #:center? #t #:start-with-dot? #t)]
+             [p (pin-bind-line p x4 x3 #:center? #t #:start-with-dot? #t)]
+             [p (pin-bind-line p y2 y1 #:center? #t #:start-with-dot? #t)])
         p))
     
     (define (bind-all p)
       (let* ([p (bind-orig p)]
-             [p (pin-bind-line p y4 y3)]
-             [p (pin-bind-line p y5 y3)])
+             [p (pin-bind-line p y4 y3 #:center? #t #:start-with-dot? #t)]
+             [p (pin-bind-line p y5 y3 #:center? #t #:start-with-dot? #t)])
         p))
     
     (list p
-          (bind-orig p))))
+          (bind-orig (cellophane p .5)))))
 
 (define (encolor col p
                  #:out [out 0]
@@ -768,7 +780,8 @@
     
     (define simple-colors (mk-p1 encolors #:encolor no-encolor))
     (define simple-colors+x-bind (pin-bind-line simple-colors
-                                                y2 y1))
+                                                y2 y1
+                                                #:center? #t #:start-with-dot? #t))
     (define simple-colors+ref (add-note simple-colors+x-bind
                                         y2
                                         x-ref))
@@ -829,6 +842,8 @@
            normal-red
            (bright (add-note normal-red y3 (is-not-subset (encolors (ghost y3) scope4) x-ref))
                    y2)
+           ;; don't want to do this here -- we're just talking about the syntax objects
+           #;
            (add-paras (mk-expanded encolor encolors #:encolor no-encolor)
                       (vl-append
                        (/ gap-size 2)

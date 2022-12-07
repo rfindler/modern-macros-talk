@@ -25,6 +25,7 @@
 
 (define (scope-slides #:more-pedantic? [more-pedantic? #f]
                       #:just-or? [just-or? #f])
+  #; ;; don't want to show the or macro here; just talking about the data structure for now
   (xslides
    (for/list ([p (in-list (if just-or?
                               (just-or-example)
@@ -69,4 +70,4 @@
 ;; ----------------------------------------
 
 (module+ main
-  (scope-slides))
+  (scope-slides #:just-or? #t))
