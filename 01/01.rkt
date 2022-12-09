@@ -37,30 +37,35 @@
     (cc-superimpose
      plt-title-background
      (vc-append
-      title-phase1
+      title
       (blank 0 100)
       (vl-append
        (t "Robby Findler")
        (t "Northwestern University")))))
   (define phase2
-    (vc-append
-     20
-     title-phase2
-     (scale (t "are an") 2)
-     (scale (t "Open Compiler") 2)))
+    (vl-append
+     (inset (colorize (t "Thesis:") "red") -20 0 0 0)
+     (vc-append
+      20
+      title
+      (scale (t "are an") 2)
+      (scale (t "Open Compiler") 2))))
 
   (play-n
    (λ (n1)
-     (define before-n n1)
-     (define after-n (- 1 n1))
-     (slide-pict
-      (cc-superimpose
-       (cellophane phase1 (- 1 before-n))
-       (cellophane phase2 (- 1 after-n)))
-      title
-      title-phase1
-      title-phase2
-      before-n))))
+     (superimpose-at
+      (cellophane phase1 (- 1 n1))
+      phase2
+      title))))
+
+(define (superimpose-at p1 p2 at)
+  (define-values (p1x p1y) (lt-find p1 at))
+  (define-values (p2x p2y) (lt-find p2 at))
+  (pin-under
+   p1
+   (- p1x p2x)
+   (- p1y p2y)
+   p2))
 
 (define (important-papers)
   (define p1986 (paper 1986))
