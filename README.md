@@ -98,3 +98,8 @@ part 5:
 
     want to take advantage of more: submodules are a generalization of meta-data
       show how a keybinding can work
+
+page 6: 
+..... other problems to work on
+    - change expander order (only in specific positions)
+    - not fully parenthesized? (rhombus)

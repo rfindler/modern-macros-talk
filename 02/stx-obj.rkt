@@ -18,31 +18,34 @@
 (provide stx-obj)
 
 (define (stx-obj)
-  (scope-slides #:just-or? #t)
+  (with-title "Syntax Objects: Representing Scope"
+    (scope-slides #:just-or? #t))
   
-  (slide
-   (table
-    3
-    (list (t "stx-obj") (t "=") (t "(setof scope) × properties × tree")
-          (t "tree") (t "=") (t "(listof stx-obj)")
-          (blank) (t "|") (t "bool")
-          (blank) (t "|") (t "symbol")
-          (blank) (t "|") (t "number")
-          (blank) (t "|") (t "⋯")
-          (t "scope") (t "=") (hbl-append (colored-box scope1)
-                                          (t " | ")
-                                          (colored-box scope2)
-                                          (t " | ")
-                                          (colored-box scope3)
-                                          (t " | ")
-                                          (colored-box scope4)
-                                          (t " | ")
-                                          (t "⋯")))
-    (list* rbl-superimpose rbl-superimpose lbl-superimpose)
-    rbl-superimpose
-    10 0))
+  (with-title "Syntax Object Data Structure"
+    (slide
+     (table
+      3
+      (list (t "stx-obj") (t "=") (t "(setof scope) × properties × tree")
+            (t "tree") (t "=") (t "(listof stx-obj)")
+            (blank) (t "|") (t "bool")
+            (blank) (t "|") (t "symbol")
+            (blank) (t "|") (t "number")
+            (blank) (t "|") (t "⋯")
+            (t "scope") (t "=") (hbl-append (colored-box scope1)
+                                            (t " | ")
+                                            (colored-box scope2)
+                                            (t " | ")
+                                            (colored-box scope3)
+                                            (t " | ")
+                                            (colored-box scope4)
+                                            (t " | ")
+                                            (t "⋯")))
+      (list* rbl-superimpose rbl-superimpose lbl-superimpose)
+      rbl-superimpose
+      10 0)))
 
-  (pattern-match-and-construct))
+  (with-title "Working with Syntax Objects"
+    (pattern-match-and-construct)))
 
 (define (pattern-match-and-construct)
   (define (go #:syntax-parse [syntax-parse-highlighted? #f]

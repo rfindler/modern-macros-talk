@@ -51,6 +51,52 @@
        #'(case enum-value
            [(enum-content ...) expr] ...)]))
 
+  (define-enum animal
+    dog turtle sheep horse)
+
+  (λ (x)
+    (enum-case animal x
+               [(dog) 1]
+               [(turtle) 2]
+               [(sheep) 3]
+               [(horse) 4]))
+  
+  (void))
+
+(let ()
+  (define-syntax (define-enum stx)
+    (syntax-parse stx
+      [(_ enum-name:id enum-content:id ...)
+       #'(begin
+           (define-syntax enum-name (set 'enum-content ...))
+           (define enum-content 'enum-content) ...)]))
+  
+  (define-syntax (enum-case stx)
+    (syntax-parse stx
+      [(_ enum-name:id
+          enum-value:expr
+          [(enum-content ...) expr] ...)
+       (unless (equal? (list->set (syntax->datum #'(enum-content ... ...)))
+                       (syntax-local-value #'enum-name (λ () #f)))
+         (raise-syntax-error
+          'enum-case
+          "mismatched enum"
+          stx #'enum-name))
+       #'(begin
+           (λ () enum-content ... ...)
+           (case enum-value
+             [(enum-content ...) expr] ...))]))
+
+  (define-enum animal
+    dog turtle sheep horse)
+
+  (λ (x)
+    (enum-case animal x
+               [(dog) 1]
+               [(turtle) 2]
+               [(sheep) 3]
+               [(horse) 4]))
+  
   (void))
 
 (define-syntax (save-code stx)
