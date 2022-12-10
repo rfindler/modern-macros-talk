@@ -11,7 +11,7 @@
         40
         (vl-append
          10
-         (tt "expand : syntax-object Γ → syntax-object")
+         (tt "Expand : syntax-object Γ → syntax-object")
          (hbl-append (t "We need an open driver loop; ")
                      (inset (tt "expand") 8 0)
                      (t " does that job")))

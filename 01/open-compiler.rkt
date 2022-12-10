@@ -10,8 +10,7 @@
 (define (open-compiler)
   (define parser (scale/improve-new-text (t "parser") 1.5))
   (define front-end (scale/improve-new-text (vc-append (t "front")
-                                                       (t "end"))
-                                            1.5))
+                                                       (t "end")) 1.5))
   (define middle-end (scale/improve-new-text (vc-append (t "middle")
                                                         (t "end")) 1.5))
   (define back-end (scale/improve-new-text (vc-append (t "back")
@@ -21,11 +20,10 @@
                     (pict-width middle-end)
                     (pict-width back-end))
                100))
-  (define box-linewidth 8)
   (define the-box (linewidth box-linewidth (frame (blank s s))))
   (define front-end-small (cc-superimpose the-box front-end))
   (define parser-box (cc-superimpose the-box parser))
-  (define middle-end-box (cc-superimpose the-box middle-end))
+  (define middle-end-box (add-self-loop (cc-superimpose the-box middle-end)))
   (define back-end-box (cc-superimpose the-box back-end))
 
   (define clauses
@@ -76,7 +74,7 @@
     (for/fold ([main main])
               ([box1 (in-list boxes)]
                [box2 (in-list (cdr boxes))])
-      (pin-arrow-line (* box-linewidth 4) main
+      (pin-arrow-line arrowhead-size main
                       box1 rc-find
                       box2 lc-find
                       #:alpha (- 1 n)
@@ -104,6 +102,34 @@
       main
       main
       big-box n1))))
+
+(define (add-self-loop p)
+  (define dx (* (pict-width p) 1/8))
+  (cc-superimpose
+   p
+   (linewidth
+    box-linewidth
+    (launder
+     (pin-arrow-line
+      arrowhead-size
+      (ghost p)
+      p
+      (wrap-find ct-find dx 0)
+      p
+      (wrap-find ct-find (- dx) 0)
+      #:start-pull 2.5
+      #:end-pull 2
+      #:start-angle (/ pi 3)
+      #:end-angle (/ pi -3))))))
+
+
+(define (wrap-find xx-find dx dy)
+  (λ args
+    (define-values (x y) (apply xx-find args))
+    (values (+ x dx) (+ y dy))))
+
+(define box-linewidth 8)
+(define arrowhead-size (* box-linewidth 4))
 
 ;; this has the center of `c1` at the center of the entire slide when `n`
 ;; is 0 and the center of `c2` at the center of the entire slide when `n`

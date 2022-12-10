@@ -89,7 +89,7 @@
   (s p1986)
   (s p1986+p1990)
 
-  (with-title "Four Deep Technical Results Over 30 Years"
+  (with-title "Five Deep Technical Results Over 30 Years"
     (slide
      (scale-to-fit (hc-append p1986+p1990 p1992 p2002 p2016)
                    client-w client-h))))
