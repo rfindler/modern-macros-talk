@@ -9,6 +9,13 @@
 
 (introduction)
 
+#|
+
+Need to introduce the idea that we discover the
+scope only through the expansion process!
+
+|#
+
 (slide
  (vl-append
   10

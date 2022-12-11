@@ -42,13 +42,22 @@
                                             (t "⋯")))
       (list* rbl-superimpose rbl-superimpose lbl-superimpose)
       rbl-superimpose
-      10 0)))
+      10 0)
+     (blank) (blank)
+     (vc-append
+      (t "Just a data structure:")
+      (hbl-append (it "wrong")
+                  (t " colors means ")
+                  (it "wrong")
+                  (t " scope")))))
 
   (with-title "Working with Syntax Objects"
     (pattern-match-and-construct)))
 
 (define (pattern-match-and-construct)
-  (define (go #:syntax-parse [syntax-parse-highlighted? #f]
+  (define (go #:define [define-highlighted? #f]
+              #:transform-or? [transform-or?-highlighted? #f]
+              #:syntax-parse [syntax-parse-highlighted? #f]
               #:pattern [pattern-highlighted? #f]
               #:stx-obj [stx-obj-highlighted? #f]
               #:body [body-highlighted? #f]
@@ -64,7 +73,7 @@
     (define main
      (code
       (code:comment "transform-or : stx-obj -> stx-obj")
-      (define (transform-or stx-obj)
+      (#,(add-highlight define-highlighted? define) (#,(add-highlight transform-or?-highlighted? transform-or stx-obj))
         (#,(add-highlight syntax-parse-highlighted? syntax-parse) #,(add-highlight stx-obj-highlighted? stx-obj)
           #,(add-highlight pattern-highlighted? #:literals (or))
           [#,(add-highlight pattern-highlighted? (or #,(add-highlight e1-highlighted? e1:expr) e2:expr))
@@ -82,6 +91,8 @@
                     highlighted-picts)])))
 
   (go)
+  (go #:define #t)
+  (go #:transform-or? #t)
   (go #:syntax-parse #t)
   (go #:stx-obj #t)
   (go #:pattern #t)

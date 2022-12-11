@@ -24,7 +24,10 @@
          scope3
          scope4
          scope5
-         scope6)
+         scope6
+
+         get-just-the-or-expansion-after-pict
+         get-just-the-or-expansion-before-pict)
 
 (define (shift find dx dy)
   (lambda (p q)
@@ -864,3 +867,8 @@
                                 (t " = scope of definition of ")
                                 (code or))))))
          null))))
+
+(define (get-just-the-or-expansion-before-pict)
+  (list-ref (scopes-example) 2))
+(define (get-just-the-or-expansion-after-pict)
+  (list-ref (scopes-example) 12))
