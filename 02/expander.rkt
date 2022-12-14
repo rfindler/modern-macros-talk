@@ -46,14 +46,14 @@
                               (code (#,eval-p #'proc-e))
                               (t " }")))))
 
-  (define where2
+  (define where1b
     (vl-append
      (hbl-append (code e1′) (t " = ") (expand-call (code e1)))
      (hbl-append (code e2′) (t " = ") (expand-call (code e2)))))
 
   (define where1
     (vl-append
-     where2
+     where1b
      (hbl-append (code e3′) (t " = ") (expand-call (code e3)))))
 
   (define (inset/2-right p)
@@ -61,19 +61,17 @@
            0 0
            (- (/ (pict-width p) 2))
            0))
-  (define before/after
-    (htl-append
-     40
-     (inset/2-right (get-just-the-or-expansion-before-pict))
-     (inset/2-right (get-just-the-or-expansion-after-pict))))
+
+  (define the-before-pict (get-just-the-or-expansion-before-pict))
+  (define the-after-pict (get-just-the-or-expansion-after-pict))
   
-  (define (where3 n)
+  (define (where2 n2b n2c)
     (vl-append
      40
      (hbl-append (t "Γ(") (code m) (t ") = ") (code (λ (stx) e2)))
-     (cellophane
-      (hc-append
-       40
+     (hc-append
+      40
+      (cellophane
        (colorize (vl-append
                   (t "add a fresh scope to")
                   (hbl-append
@@ -84,11 +82,28 @@
                     (t "but that is not in the")
                     (t "input"))))
                  "red")
-       before/after)
-      n)))
-     
+       n2c)
+      (htl-append
+       40
+       (cellophane (inset/2-right the-before-pict) n2b)
+       (cellophane (inset/2-right the-after-pict) n2c)))))
+
+  (define (where3 n3b)
+    (cellophane
+
+     (vl-append
+      (blank 0 100)
+      (t "Sidebar:")
+      (hc-append (blank 30 0)
+                 (vl-append
+                  (code (let-syntax ([id proc-e]) body-e))
+                  (t "vs")
+                  (code (define-syntax id proc-e)))))
+
+     n3b))
+  
   (play-n
-   (λ (n1 n1b n2 n2b n3 n3b)
+   (λ (n1 n1b n2 n2b n2c n3 n3b n3c)
 
      (define plain-eval (code eval))
      (define eval-arrow
@@ -131,8 +146,9 @@
        
        (lt-superimpose
         (show where1 1)
-        (show where2 2)
-        (show (where3 n2b) 3)))))))
+        (show where1b 2)
+        (show (where2 n2b n2c) 3)
+        (show (where3 n3c) 4)))))))
 
 (define (add-a-scope p n)
   (define w (pict-width p))
