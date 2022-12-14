@@ -1,5 +1,5 @@
 #lang racket
-(require "../lib/setup.rkt" slideshow/play slideshow
+(require "../lib/setup.rkt" "../lib/util.rkt" slideshow/play slideshow
          "../stolen-from-mflatt/scope.rkt"
          "../stolen-from-mflatt/code.rkt"
          slideshow/code)
@@ -99,7 +99,6 @@
   (go #:body #t)
   (go #:e1 #t))
 
-;➷
 (define (add-arrows main arrows)
   (for/fold ([main main])
             ([arrow (in-list arrows)])
@@ -117,18 +116,6 @@
      with-arrow
      x y
      arrow)))
-       
-
-(define arrow-with-dot-on-arrowhead
-  (let ()
-    (define base (scale (t "➹") 4))
-    (define spot (blank))
-    (refocus (pin-over
-              base
-              (* (pict-width base) 9/10)
-              (* (pict-height base) 1/4)
-              spot)
-             spot)))
 
 (define (add-highlight/proc as-code sym on?)
   (cond

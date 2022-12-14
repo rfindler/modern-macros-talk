@@ -74,24 +74,19 @@
   (define p1992 (paper 1992))
   (define p2002 (paper 2002))
   (define p2016 (paper 2016))
-
+  (define papers (list p1986 p1990 p1992 p2002 p2016))
+  (define ph (apply max (map pict-height papers)))
+  (define sized-papers
+    (for/list ([paper (in-list papers)])
+      (scale paper (/ ph (pict-height paper)))))
+  
   (define (s p) (slide (scale-to-fit p client-w client-h)))
-
-  (define p1986+p1990
-    (lt-superimpose
-     p1986
-     (inset p1990
-            (/ (pict-width p1986) 8)
-            (/ (pict-height p1986) 8)
-            0
-            0)))
   
   (s p1986)
-  (s p1986+p1990)
 
   (with-title "Five Deep Technical Results Over 30 Years"
     (slide
-     (scale-to-fit (hc-append p1986+p1990 p1992 p2002 p2016)
+     (scale-to-fit (apply hc-append sized-papers)
                    client-w client-h))))
 
 (define (slide-and-scale main p start finish n)
