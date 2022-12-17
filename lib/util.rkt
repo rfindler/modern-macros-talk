@@ -3,6 +3,7 @@
 
 (provide
  (contract-out
+  [fade-in-pointer (-> pict? (real-in 0 1) pict?)]
   [interpolate
    (-> real? real? (real-in 0 1) real?)]
   [arrow-with-dot-on-arrowhead pict?]))
@@ -18,3 +19,8 @@
               (* (pict-height base) 1/4)
               spot)
              spot)))
+
+(define (fade-in-pointer p n)
+  (refocus
+   (lbl-superimpose p (cellophane (colorize arrow-with-dot-on-arrowhead "red") n))
+   p))
