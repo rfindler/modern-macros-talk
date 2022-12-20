@@ -4,7 +4,9 @@
          racket/runtime-path
          racket/serialize
          pkg/path setup/getinfo)
-(provide deepest-pkg-paths)
+(provide
+ (contract-out
+  [tower-of-compile-time-pkgs (-> (listof (cons/c string? natural?)))]))
 
 (define (compute-deepest-pkg-paths)
   (define progress-channel (make-async-channel))
@@ -54,7 +56,6 @@
     (define pkg (path->pkg (modname->path modname) #:cache path->pkg-cache))
     (cond
       [(not pkg) "base"]
-      [(regexp-match #rx"^(.*)-lib$" pkg) => (λ (m) (list-ref m 1))]
       [else pkg]))
   
   (let loop ()
@@ -65,7 +66,6 @@
       (λ (x)
         (match x
           ['done
-           (printf "done!\n")
            (void)]
           [(list file imports delta-depth)
            (add-edge file imports delta-depth)
@@ -99,25 +99,6 @@
               ([(k v) (in-hash file-paths)])
       (max (cdr k) n)))
 
-  (define (file-path->shrunken-pkg-path path)
-    (let loop ([path path])
-      (cond
-        [(null? path) '()]
-        [(null? (cdr path))
-         (match-define (cons fst-path fst-depth) (car path))
-         (define fst-pkg (get-pkg-name fst-path))
-         (list (cons fst-pkg fst-depth))]
-        [else
-         (match-define (cons fst-path fst-depth) (car path))
-         (match-define (cons snd-path snd-depth) (cadr path))
-         (define fst-pkg (get-pkg-name fst-path))
-         (define snd-pkg (get-pkg-name snd-path))
-         (cond
-           [(and (= fst-depth snd-depth) (equal? fst-pkg snd-pkg))
-            (loop (cdr path))]
-           [else
-            (cons (cons fst-pkg fst-depth) (loop (cdr path)))])])))
-
   (define (file-path->pkg-path path)
     (let loop ([path path])
       (cond
@@ -125,19 +106,24 @@
         [else
          (match-define (cons fst-path fst-depth) (car path))
          (define fst-pkg (get-pkg-name fst-path))
-         (cons (list fst-pkg fst-depth fst-path) (loop (cdr path)))])))
+         (cons (file-link fst-pkg fst-depth fst-path) (loop (cdr path)))])))
 
   (define deepest-pkg-paths
     (for*/set ([(k v) (in-hash file-paths)]
                #:when (= (cdr k) deepest-depth)
                [path (in-set v)])
       (file-path->pkg-path path)))
-  deepest-pkg-paths)
+
+  (unless (= 1 (set-count deepest-pkg-paths))
+    (error 'deepest-pkg-paths "found more than one deepest path"))
+  
+  (set-first deepest-pkg-paths))
 
 (define-runtime-path deepest-pkg-paths.rktd "deepest-pkg-paths.rktd")
 (define (get-deepest-pkg-paths)
   (unless (file-exists? deepest-pkg-paths.rktd)
-    (define deepest-pkg-paths (compute-deepest-pkg-paths))
+    (printf "computing deepest-pkg-paths ") (flush-output)
+    (define deepest-pkg-paths (time (compute-deepest-pkg-paths)))
     (call-with-output-file deepest-pkg-paths.rktd
       (λ (port)
         (write (serialize deepest-pkg-paths) port)
@@ -145,4 +131,34 @@
       #:exists 'truncate))
   (deserialize (call-with-input-file deepest-pkg-paths.rktd read)))
 
-(define deepest-pkg-paths (get-deepest-pkg-paths))
+(struct file-link (pkg depth path) #:prefab)
+
+(define (tower-of-compile-time-pkgs)
+  (let loop ([deepest-pkg-paths (get-deepest-pkg-paths)]
+             [depths (set)]
+             [current-category #f])
+    (cond
+      [(null? deepest-pkg-paths)
+       (list (cons current-category (set-count depths)))]
+      [else
+       (define category (categorize (car deepest-pkg-paths)))
+       (define new-depths (set-add depths (file-link-depth (car deepest-pkg-paths))))
+       (cond
+         [(or (not current-category) (equal? category current-category))
+          (loop (cdr deepest-pkg-paths)
+                new-depths
+                category)]
+         [else
+          (cons (cons current-category (set-count depths))
+                (loop (cdr deepest-pkg-paths)
+                      (set)
+                      #f))])])))
+
+(define (categorize a-file-link)
+  (match a-file-link
+    [(file-link pkg depth path)
+     (cond
+       [(regexp-match #rx"syntax/parse" (~a path))
+        "syntax/parse"]
+       [else
+        (regexp-replace #rx"-" (regexp-replace #rx"-lib$" pkg "") "/")])]))

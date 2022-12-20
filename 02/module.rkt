@@ -1,5 +1,6 @@
 #lang racket
 (require "../lib/setup.rkt" "../lib/util.rkt"
+         "deepest-pkg-paths.rkt"
          slideshow slideshow/play slideshow/code)
 #|
 
@@ -11,6 +12,11 @@ be called at compile time and at runtime.....
 |#
 
 (provide module-system)
+
+(define (module-system)
+  (with-title "The Module System"
+    (dependencies-motivation)
+    (tower-of-compile-time)))
 
 #|
 
@@ -28,8 +34,7 @@ be called at compile time and at runtime.....
 
 |#
 
-(define (module-system)
-  (with-title "The Module System"
+(define (dependencies-motivation)
     (define space (blank (* client-w 3/4) (* client-h 1/2)))
     (play-n
      (λ (n1 n2 n3 n4 n5 n6 n7)
@@ -62,15 +67,19 @@ be called at compile time and at runtime.....
             (λ (stx)
               #,body2))))
 
+       (define words-on-side-indent (blank 30 0))
        (define words-on-side
          (vl-append
+          20
           (cellophane (vl-append
                        (t "compile-time:")
-                       (hbl-append (tt "syntax/parse") (t " library")))
+                       (hc-append words-on-side-indent
+                                  (hbl-append (tt "syntax/parse") (t " library"))))
                       n5)
           (cellophane (vl-append
                        (t "run-time:")
-                       (hbl-append (t "just the basics")))
+                       (hc-append words-on-side-indent
+                                  (hbl-append (t "just the basics"))))
                       n7)))
        
        (hc-append
@@ -82,7 +91,7 @@ be called at compile time and at runtime.....
            (cellophane phase2 n3))
           body
           body1 body2 n2))
-        words-on-side)))))
+        words-on-side))))
 
 (define (become p1 p2 n)
   (define m (max (pict-width p1) (pict-width p2)))
@@ -95,5 +104,30 @@ be called at compile time and at runtime.....
                   (cellophane p1 (- 1 n))
                   (cellophane p2 n))
                  sized)))
+
+(define (tower-of-compile-time)
+  (define pkgs (tower-of-compile-time-pkgs))
+  (play-n
+   (λ (n)
+     (vl-append
+      80
+      (inset (colorize (t "Tower of compile times:") "red") -100 0 0 0)
+      (apply
+       vc-append
+       (for/list ([i (in-naturals)]
+                  [pkg+count (in-list pkgs)])
+         (match-define (cons pkg count) pkg+count)
+         (define words (become (tt pkg)
+                               (if (= count 1)
+                                   (tt pkg)
+                                   (tt (~a pkg " (" count ")")))
+                               n))
+         (cc-superimpose
+          words
+          (linewidth
+           6
+           (frame
+            (blank (+ (* client-w .3) (* i 60))
+                   (* (pict-height words) 1.8)))))))))))
 
 (module+ main (module-system))
