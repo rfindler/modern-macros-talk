@@ -16,7 +16,8 @@ be called at compile time and at runtime.....
 (define (module-system)
   (with-title "The Module System"
     (dependencies-motivation)
-    (tower-of-compile-time)))
+    (tower-of-compile-time)
+    (show-the-requires)))
 
 #|
 
@@ -130,4 +131,68 @@ be called at compile time and at runtime.....
             (blank (+ (* client-w .3) (* i 60))
                    (* (pict-height words) 1.8)))))))))))
 
-(module+ main (module-system))
+(define (show-the-requires)
+  (play-n
+   (λ (n1 n2)
+
+     (define syntax-parse (code syntax-parse))
+     (define syntax-parse-spot (launder (ghost syntax-parse)))
+     (define syntax/parse (code (for-syntax syntax/parse racket/base)))
+     (define syntax/parse-spot (launder (ghost syntax/parse)))
+
+     (define let-code (code let))
+     (define let-spot (launder (ghost let-code)))
+     (define if-code (code if))
+     (define if-spot (launder (ghost if-code)))
+     (define racket/base (code racket/base))
+     (define racket/base-spot (launder (ghost racket/base)))
+     
+     (define main
+       (vl-append
+        (tt "#lang racket/base")
+        (code
+         code:blank
+         (require #,syntax/parse-spot
+                  #,racket/base-spot)
+         code:blank
+         (define-syntax (transform-or stx)
+           (#,syntax-parse-spot stx-obj
+             #:literals (or)
+             [(or e1:expr e2:expr)
+              #'(#,let-spot ([x e1])
+                  (#,if-spot x
+                      x
+                      e2))])))))
+
+     (define racket-base-fade-n (interpolate 1 .5 n1))
+     
+     (pin-over
+      (pin-over
+       (pin-over
+        (pin-over
+         (pin-over
+          (cellophane main (interpolate 1 .5 n1))
+          racket/base-spot
+          lt-find
+          (fade-in-pointer (cellophane racket/base (* (interpolate 1 .5 n1)
+                                                      (interpolate 1 2 n2)))
+                           n2))
+         if-spot
+         lt-find
+         (fade-in-pointer (cellophane if-code (* (interpolate 1 .5 n1)
+                                                 (interpolate 1 2 n2)))
+                          n2))
+        let-spot
+        lt-find
+        (fade-in-pointer (cellophane let-code (* (interpolate 1 .5 n1)
+                                                 (interpolate 1 2 n2)))
+                         n2))
+       syntax/parse-spot
+       lt-find
+       (fade-in-pointer (cellophane syntax/parse (interpolate 1 .5 n2))
+                        (* n1 (- 1 n2))))
+      syntax-parse-spot
+      lt-find
+      (fade-in-pointer (cellophane syntax-parse (interpolate 1 .5 n2)) (* n1 (- 1 n2)))))))
+
+(module+ main (show-the-requires))
