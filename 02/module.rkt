@@ -35,63 +35,63 @@ be called at compile time and at runtime.....
 |#
 
 (define (dependencies-motivation)
-    (define space (blank (* client-w 3/4) (* client-h 1/2)))
-    (play-n
-     (λ (n1 n2 n3 n4 n5 n6 n7)
-       (define body
-         (code
-          (#,(fade-in-pointer (code syntax-parse) (* n4 (- 1 n6))) stx-obj
-            #:literals (or)
-            [(or e1:expr e2:expr)
-             #'(#,(fade-in-pointer (code let) n6) ([x e1])
-                 (#,(fade-in-pointer (code if) n6) x
-                     x
-                     e2))])))
-       (define body1 (ghost (launder body)))
-       (define body2
-         (code
-          (syntax-parse stx-obj
-            #:literals (or)
-            [(or e1:expr e2:expr)
-             #'(let ([x e1])
-                 (if x
-                     x
-                     e2))])))
-       (define phase1
-         (code
-          (#,(become (code define) (code define-syntax) n1) (transform-or stx)
-            #,body1)))
-       (define phase2
-         (code
-          (define-syntax transform-or
-            (λ (stx)
-              #,body2))))
+  (define space (blank (* client-w 3/4) (* client-h 1/2)))
+  (play-n
+   (λ (n1 n2 n3 n4 n5 n6 n7)
+     (define body
+       (code
+        (#,(fade-in-pointer (code syntax-parse) (* n4 (- 1 n6))) stx-obj
+          #:literals (or)
+          [(or e1:expr e2:expr)
+           #'(#,(fade-in-pointer (code let) n6) ([x e1])
+               (#,(fade-in-pointer (code if) n6) x
+                   x
+                   e2))])))
+     (define body1 (ghost (launder body)))
+     (define body2
+       (code
+        (syntax-parse stx-obj
+          #:literals (or)
+          [(or e1:expr e2:expr)
+           #'(let ([x e1])
+               (if x
+                   x
+                   e2))])))
+     (define phase1
+       (code
+        (#,(become (code define) (code define-syntax) n1) (transform-or stx)
+          #,body1)))
+     (define phase2
+       (code
+        (define-syntax transform-or
+          (λ (stx)
+            #,body2))))
 
-       (define words-on-side-indent (blank 30 0))
-       (define words-on-side
-         (vl-append
-          20
-          (cellophane (vl-append
-                       (t "compile-time:")
-                       (hc-append words-on-side-indent
-                                  (hbl-append (tt "syntax/parse") (t " library"))))
-                      n5)
-          (cellophane (vl-append
-                       (t "run-time:")
-                       (hc-append words-on-side-indent
-                                  (hbl-append (t "just the basics"))))
-                      n7)))
-       
-       (hc-append
-        (lc-superimpose
-         (blank 700 0) ;; this 700 should really be the full-formed width at n2
-         (slide-pict
-          (ltl-superimpose
-           (cellophane phase1 (- 1 n3))
-           (cellophane phase2 n3))
-          body
-          body1 body2 n2))
-        words-on-side))))
+     (define words-on-side-indent (blank 30 0))
+     (define words-on-side
+       (vl-append
+        20
+        (cellophane (vl-append
+                     (t "compile-time:")
+                     (hc-append words-on-side-indent
+                                (hbl-append (tt "syntax/parse") (t " library"))))
+                    n5)
+        (cellophane (vl-append
+                     (t "run-time:")
+                     (hc-append words-on-side-indent
+                                (hbl-append (t "just the basics"))))
+                    n7)))
+
+     (hc-append
+      (lc-superimpose
+       (blank 700 0) ;; this 700 should really be the full-formed width at n2
+       (slide-pict
+        (ltl-superimpose
+         (cellophane phase1 (- 1 n3))
+         (cellophane phase2 n3))
+        body
+        body1 body2 n2))
+      words-on-side))))
 
 (define (become p1 p2 n)
   (define m (max (pict-width p1) (pict-width p2)))
