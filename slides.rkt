@@ -5,6 +5,7 @@
          "02/expander.rkt"
          "02/module.rkt"
          "03/enum.rkt"
+         "06/thanks.rkt"
          slideshow)
 
 (introduction)

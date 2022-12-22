@@ -1,7 +1,7 @@
 #lang racket
 (require "../lib/setup.rkt"
          "../lib/util.rkt"
-         "title.rkt"
+         "../lib/title.rkt"
          "open-compiler.rkt"
          slideshow slideshow/play pict/shadow)
 
