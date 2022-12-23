@@ -30,13 +30,28 @@
   (with-title "What is an Open Compiler?"
     (open-compiler)))
 
+(define plt-title-background-with-insets
+  (cc-superimpose
+   (inset (colorize
+           (filled-rectangle (+ client-w margin margin)
+                             (+ client-h margin margin))
+           plt-background-color)
+          (- margin))
+   (make-plt-title-background plt-red-color
+                              plt-blue-color 
+                              plt-background-color
+                              plt-lambda-color
+                              plt-pen-color 
+                              plt-pen-style
+                              #:clip? #f)))
+
 (define (title->thesis)
   (define title (scale (t "Modern Macros") 2))
   (define title-phase1 (ghost (launder title)))
   (define title-phase2 (ghost (launder title)))
   (define phase1
     (cc-superimpose
-     plt-title-background
+     plt-title-background-with-insets
      (vc-append
       title
       (blank 0 100)

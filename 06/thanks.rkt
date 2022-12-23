@@ -22,7 +22,8 @@
             "Daniel P. Freidman" "Bruce Duba"
             "William Clinger" "Jonathan Rees"
             "R. Kent Dybvig" "Robert Hieb"
-            "Carl Bruggeman"
+            "Carl Bruggeman" "Mitchell Wand"
+            "Eugene E. Kohlbecker"
             "Ryan Culpepper")
      (folks "Language Authors"
             "Sorawee Porncharoenwase"
@@ -32,7 +33,6 @@
 
 (define (folks caption . names)
   (set! names (sort names string<? #:key last-name))
-  (for ([name (in-list names)]) (displayln name)) (displayln "")
   (set! names (add-and names))
   (vl-append
    (scale (t (~a caption ":")) 2)
