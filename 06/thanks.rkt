@@ -17,14 +17,15 @@
              bkg)
     (vl-append
      60
-     (folks "Macro Giants"
+     (folks "Macro Paper Authors"
             "Matthew Flatt" "Matthias Felleisen"
             "Daniel P. Freidman" "Bruce Duba"
             "William Clinger" "Jonathan Rees"
             "R. Kent Dybvig" "Robert Hieb"
             "Carl Bruggeman" "Mitchell Wand"
             "Eugene E. Kohlbecker"
-            "Ryan Culpepper")
+            "Ryan Culpepper" "Michael Ballantyne"
+            "Alexis King" "Timothy P. Hart")
      (folks "Language Authors"
             "Sorawee Porncharoenwase"
             "Jesse Tov" "Spencer Florence"
@@ -35,7 +36,7 @@
   (set! names (sort names string<? #:key last-name))
   (set! names (add-and names))
   (vl-append
-   (scale (t (~a caption ":")) 2)
+   (scale (t caption) 2)
    (inset (apply para
                  #:width 680
                  (add-between names ",")) 40 0 0 0)))
