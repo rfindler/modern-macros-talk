@@ -4,8 +4,9 @@
          "02/stx-obj.rkt"
          "02/expander.rkt"
          "02/module.rkt"
-         "03/enum.rkt"
-         "06/thanks.rkt"
+         "03/existing-cool-things.rkt"
+         "04/ide-cool-things.rkt"
+         "05/thanks.rkt"
          slideshow)
 
 (introduction)
@@ -29,4 +30,4 @@ scope only through the expansion process!
 (expander)
 (module-system)
 
-(enum-slides)
+(thanks)

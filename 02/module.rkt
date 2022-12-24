@@ -2,14 +2,6 @@
 (require "../lib/setup.rkt" "../lib/util.rkt"
          "deepest-pkg-paths.rkt"
          slideshow slideshow/play slideshow/code)
-#|
-
-
-Need an example of a function that could plausibly
-be called at compile time and at runtime.....
-
-
-|#
 
 (provide module-system)
 
@@ -18,22 +10,6 @@ be called at compile time and at runtime.....
     (dependencies-motivation)
     (tower-of-compile-time)
     (show-the-requires)))
-
-#|
-
-0. introduce "terminology" with boxes and arrows for dependencies(?)
-
-1. show a macro definition and discuss dependencies
-   ----> or example from earlier; don't need syntax-parse at compile time
-   ----> more archane point: the language you're compiling into might
-         be different than the one you're compiling with
-
-2. show some boxes and arrows diagrams with modules and dependencies
-   based on real(ish) example
-
-3. ...
-
-|#
 
 (define (dependencies-motivation)
   (define space (blank (* client-w 3/4) (* client-h 1/2)))
