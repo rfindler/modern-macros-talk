@@ -32,11 +32,21 @@
      (expand-call (code #'(let ([x e1]) e2)))
      (t "=")
      (code #'(let ([#,(add-a-scope (code x) n) e1′] #,(add-a-scope (code e2′) n))))))
-  (define case2
-    (vl-append
-     (expand-call (code #'(m e1 ...)))
-     (t "=")
-     (expand-call (code ((#,(t "λ") (stx) e2) #'(m e1 ...))))))
+  (define (case2 n2a)
+    (htl-append-with-bar
+     #:gap 50
+     #:bar-cellophane n2a
+     (vl-append
+      (expand-call (code #'(m e1 ...)))
+      (t "=")
+      (expand-call (code ((#,(t "λ") (stx) e2)
+                          #'(m e1 ...)))))
+     (cellophane
+      (vl-append
+       (expand-call (code #'m))
+       (t "=")
+       (expand-call (code ((#,(t "λ") (stx) e2)
+                           #'m)))) n2a)))
   (define (case3 eval-p)
     (vl-append
      (expand-call (code #'(let-syntax ([id proc-e]) body-e)))
@@ -103,7 +113,7 @@
      n3b))
   
   (play-n
-   (λ (n1 n1b n2 n2b n2c n3 n3b n3c)
+   (λ (n1 n1b n2 n2a n2b n2c n3 n3b n3c)
 
      (define plain-eval (code eval))
      (define eval-arrow
@@ -135,7 +145,7 @@
         (hbl-append (show (case1b n1b) 2)
                     (cellophane (colorize (t "add a fresh scope") "red")
                                 (* n1b (- 1 n2))))
-        (show case2 3)
+        (show (case2 n2a) 3)
         (show (case3 eval-arrow) 4)))
 
       (blank 0 40)
@@ -149,6 +159,18 @@
         (show where1b 2)
         (show (where2 n2b n2c) 3)
         (show (where3 n3c) 4)))))))
+
+(define (htl-append-with-bar #:gap [gap 0] #:bar-cellophane [bar-cellophane 1] p1 p2)
+  (define without-bar (htl-append gap p1 p2))
+  (define extra-v-space 10)
+  (define bar (cellophane (frame (blank 0 (+ extra-v-space (pict-height without-bar) extra-v-space)))
+                          bar-cellophane))
+  (define-values (x y) (lt-find without-bar p2))
+  (pin-over
+   without-bar
+   (- x (/ gap 2))
+   (- extra-v-space)
+   bar))
 
 (define (add-a-scope p n)
   (define w (pict-width p))
@@ -169,5 +191,5 @@
     (tt "Expand")))
 
 (define (expand-call p [Γ (t "Γ")])
-  (hbl-append expand-p (t "⟦ ") p (inset (t " , ") 10 0) Γ (t " ⟧")))
+  (htl-append expand-p (t "⟦ ") p (inset (t " , ") 10 0) Γ (t " ⟧")))
 
