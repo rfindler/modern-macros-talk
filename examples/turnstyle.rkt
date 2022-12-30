@@ -1,7 +1,7 @@
 #lang turnstile/quicklang
 
-(provide → λ #%app ann)
-
+(provide → λ #%app ann Int)
+(define-base-type Int)
 (define-type-constructor → #:arity >= 1)
 
 (define-typed-syntax λ #:datum-literals (:)

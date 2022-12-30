@@ -70,18 +70,6 @@
         body1 body2 n2))
       words-on-side))))
 
-(define (become p1 p2 n)
-  (define m (max (pict-width p1) (pict-width p2)))
-  (define sized (blank (interpolate (pict-width p1) (pict-width p2) n)
-                       (interpolate (pict-height p1) (pict-height p2) n)
-                       (interpolate (pict-ascent p1) (pict-ascent p2) n)
-                       (interpolate (pict-descent p1) (pict-descent p2) n)))
-  (clip (refocus (lbl-superimpose
-                  sized
-                  (cellophane p1 (- 1 n))
-                  (cellophane p2 n))
-                 sized)))
-
 (define (tower-of-compile-time)
   (define pkgs (tower-of-compile-time-pkgs))
   (play-n

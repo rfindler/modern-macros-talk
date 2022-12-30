@@ -29,5 +29,6 @@ scope only through the expansion process!
 (stx-obj)
 (expander)
 (module-system)
-
+(existing-cool-things)
+(ide-cool-things)
 (thanks)
