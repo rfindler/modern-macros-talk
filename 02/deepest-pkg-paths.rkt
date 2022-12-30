@@ -55,7 +55,7 @@
   (define (get-pkg-name modname)
     (define pkg (path->pkg (modname->path modname) #:cache path->pkg-cache))
     (cond
-      [(not pkg) "base"]
+      [(not pkg) "racket/base"]
       [else pkg]))
   
   (let loop ()
