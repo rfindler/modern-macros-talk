@@ -823,6 +823,7 @@
            (add-paras (bright (bright simple-colors+decide y1) cand2)
                       (hbl-append (t "use candidate with ") (it "biggest") (t " subset")))
            normal-red
+           #;
            (extract-layers (lambda (encs #:encolor enc)
                              (define (encs-x p #:int? [int? #f] . cs)
                                (apply encs p #:int? int? (remove scope5 cs)))
@@ -832,6 +833,7 @@
                                           #:encolors encs-x
                                           #:encolor enc))
                            `(,scope1 ,scope2 ,scope3 ,scope4))
+           #;
            normal-red
            (bright (add-note normal-red y3 (is-not-subset (encolors (ghost y3) scope4) x-ref))
                    y2)

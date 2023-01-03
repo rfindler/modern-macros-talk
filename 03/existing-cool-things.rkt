@@ -4,6 +4,8 @@
 (provide existing-cool-things)
 
 (define (existing-cool-things)
+  
+  #;
   (slide (para #<<--
 need ideas for `here's a cool thing you can do', eg
   -- BSL's compile-time error for ho uses of functions
