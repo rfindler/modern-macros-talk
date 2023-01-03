@@ -7,9 +7,29 @@
 
 (define (module-system)
   (with-title "The Module System"
+    (let-stx-vs-def-stx)
     (dependencies-motivation)
     (tower-of-compile-time)
     (show-the-requires)))
+
+
+(define (let-stx-vs-def-stx)
+  (play-n
+   (λ (n)
+     (vl-append
+      40
+      (hbl-append (t "Back to that call to ") (tt "eval") (t " ..."))
+      (cellophane
+       (vl-append
+        10
+        (t "Sidebar:")
+        (hc-append (blank 30 0)
+                   (vl-append
+                    10
+                    (code (let-syntax ([id proc-e]) body-e))
+                    (t "vs")
+                    (code (define-syntax id proc-e)))))
+       n)))))
 
 (define (dependencies-motivation)
   (define space (blank (* client-w 3/4) (* client-h 1/2)))
@@ -159,4 +179,4 @@
       lt-find
       (fade-in-pointer (cellophane syntax-parse (interpolate 1 .5 n2)) (* n1 (- 1 n2)))))))
 
-(module+ main (show-the-requires))
+(module+ main (module-system))
