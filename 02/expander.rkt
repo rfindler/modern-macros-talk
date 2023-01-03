@@ -26,7 +26,7 @@
 (define (expand-cases-proc)
   (define case1
     (vl-append
-     (expand-call (code #'(if e1 e2 e2)))
+     (expand-call (code #'(if e1 e2 e3)))
      (t "=")
      (code #'(if e1′ e2′ e3′))))
   (define (case1b n)

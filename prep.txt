@@ -1,0 +1,13 @@
+-- initial window of programs:
+
+     -- reactor.rkt
+     -- recursive.rkt
+     -- dssl2.rkt
+
+-- programs for later:
+
+     -- bsl.rkt
+     -- tr.rkt
+     -- redex.rkt
+     -- turnstile.rkt
+

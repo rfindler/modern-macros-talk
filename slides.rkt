@@ -29,6 +29,18 @@ scope only through the expansion process!
 (stx-obj)
 (expander)
 (module-system)
+
+(slide
+ (vl-append
+  40
+  (t "Recap:")
+  (t "   • Syntax Objects: data structure representing the AST")
+  (t "   • The Expander: how we stitch the pieces together")
+  (t "   • The Module System: how we find the pieces"))
+
+ (t "Now: what can we do with all this?"))
+
 (existing-cool-things)
 (ide-cool-things)
 (thanks)
+(printf "~a milliseconds to build the slideshow\n" (current-process-milliseconds))

@@ -51,7 +51,7 @@ also: what things do I need to foreshadow here?
          (define-syntax (#,(fade-in-pointer (code f) (* n2 (- 1 n3))) stx)
            (syntax-parse stx
              #,(fade-in-pointer (code [x:id
-                                       #,(fade-in-pointer (code (raise-syntax-error 'f "missing open paren")) n4)])
+                                       #,(fade-in-pointer (code (raise-syntax-error 'f "missing open paren" stx)) n4)])
                                 (* n3 (- 1 n4))
                                 #:superimpose ltl-superimpose)
              #,(fade-in-pointer (code [(_ arg:expr ...)
