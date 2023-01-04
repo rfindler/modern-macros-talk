@@ -11,13 +11,6 @@
 
 (introduction)
 
-#|
-
-Need to introduce the idea that we discover the
-scope only through the expansion process!
-
-|#
-
 (slide
  (vl-append
   10
@@ -32,13 +25,16 @@ scope only through the expansion process!
 
 (slide
  (vl-append
-  40
-  (t "Recap:")
-  (t "   • Syntax Objects: data structure representing the AST")
-  (t "   • The Expander: how we stitch the pieces together")
-  (t "   • The Module System: how we find the pieces"))
+  (vl-append
+   20
+   (t "Recap:")
+   (t "   • Syntax Objects: data structure representing the AST")
+   (t "   • The Expander: how we stitch the pieces together")
+   (t "   • The Module System: how we find the pieces"))
 
- (t "Now: what can we do with all this?"))
+  (blank 0 100)
+ 
+  (t "Now: what can we do with all this?")))
 
 (existing-cool-things)
 (ide-cool-things)

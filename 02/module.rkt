@@ -14,22 +14,16 @@
 
 
 (define (let-stx-vs-def-stx)
-  (play-n
-   (λ (n)
-     (vl-append
-      40
-      (hbl-append (t "Back to that call to ") (tt "eval") (t " ..."))
-      (cellophane
-       (vl-append
-        10
-        (t "Sidebar:")
-        (hc-append (blank 30 0)
-                   (vl-append
-                    10
-                    (code (let-syntax ([id proc-e]) body-e))
-                    (t "vs")
-                    (code (define-syntax id proc-e)))))
-       n)))))
+  (slide
+   (vl-append
+    10
+    (t "Sidebar:")
+    (hc-append (blank 30 0)
+               (vl-append
+                10
+                (code (let-syntax ([id proc-e]) body-e))
+                (t "vs")
+                (code (define-syntax id proc-e)))))))
 
 (define (dependencies-motivation)
   (define space (blank (* client-w 3/4) (* client-h 1/2)))
