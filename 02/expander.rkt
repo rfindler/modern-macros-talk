@@ -8,7 +8,7 @@
     (slide
      (vl-append
       40
-       
+
       (hbl-append (t "We need a driver loop; ")
                   (inset expand-p 8 0)
                   (t " does that job"))
@@ -16,14 +16,12 @@
       (vl-append
        (hbl-append expand-p (tt " : syntax-object (id → val) → syntax-object"))
        (t "the environment tracks the macros in scope"))
-      
+
       (t "There are 3 interesting cases")))
 
-    (play-n (expand-cases-proc))
+    (expand-cases)))
 
-    (communication)))
-
-(define (expand-cases-proc)
+(define (expand-cases)
   (define case1
     (vl-append
      (expand-call (code #'(if e1 e2 e3)))
@@ -76,102 +74,36 @@
 
   (define the-before-pict (get-just-the-or-expansion-before-pict))
   (define the-after-pict (get-just-the-or-expansion-after-pict))
-  
-  (define (where2 n2b n2c)
+
+  (define (where2 n2b n2c n2d n2e)
     (vl-append
      40
      (hbl-append (t "Γ(") (code m) (t ") = ") (code (λ (stx) e2)))
-     (hc-append
-      40
+     (lt-superimpose
       (cellophane
-       (colorize (vl-append
-                  (t "add a fresh scope to")
-                  (hbl-append
-                   (blank 30 0)
-                   (vl-append
-                    (t "everything in the")
-                    (t "output of expansion,")
-                    (t "but that is not in the")
-                    (t "input"))))
-                 "red")
-       n2c)
-      (htl-append
-       40
-       (cellophane (inset/2-right the-before-pict) n2b)
-       (cellophane (inset/2-right the-after-pict) n2c)))))
-  
-  (λ (n1 n1b n2 n2a n2b n2c n3 n3b)
-
-    (define plain-eval (code eval))
-    (define eval-arrow
-      (refocus (lb-superimpose plain-eval
-                               (colorize (cellophane arrow-with-dot-on-arrowhead n3b) "red"))
-               plain-eval))
-     
-    (define (show p phase)
-      (cellophane
-       p
-       (case phase
-         [(1) (- 1 n1)]
-         [(2) (* n1 (- 1 n2))]
-         [(3) (* n1 n2 (- 1 n3))]
-         [(4) (* n1 n2 n3)])))
-    (vl-append
-
-     (lt-superimpose (show (t "Case 1: found a core form") 1)
-                     (show (t "Case 1: found a core form that binds a variable") 2)
-                     (show (t "Case 2: found a macro") 3)
-                     (show (t "Case 3: found a macro definition") 4))
-
-     (blank 0 30)
-      
-     (hc-append
-      (blank 40 0)
-      (lt-superimpose
-       (show case1 1)
-       (hbl-append (show (case1b n1b) 2)
-                   (cellophane (colorize (t "add a fresh scope") "red")
-                               (* n1b (- 1 n2))))
-       (show (case2 n2a) 3)
-       (show (case3 eval-arrow) 4)))
-
-     (blank 0 40)
-     (cellophane (t "where") (- 1 n3))
-
-     (hc-append
-      (blank 40 0)
-       
-      (lt-superimpose
-       (show where1 1)
-       (show where1b 2)
-       (show (where2 n2b n2c) 3))))))
-
-(define (communication)
-  (define the-expand-cases-proc (expand-cases-proc))
-  (define (show-expand-case-slide n)
-    (define refer-slide-size (- 1/2 1/10))
-    (frame
-     (scale
-      (ct-superimpose
-       (blank client-w client-h)
-       (vc-append
-        (blank 0 title-h)
-        (apply
-         the-expand-cases-proc
-         (append (make-list n 1)
-                 (make-list (- (procedure-arity the-expand-cases-proc) n) 0)))))
-      refer-slide-size)))
-  (play-n
-   (λ (n)
-     (vc-append
-      40
-      (hc-append
-       40
-       (show-expand-case-slide 4)
-       (show-expand-case-slide 7))
+       (hc-append
+        40
+        (cellophane
+         (colorize (vl-append
+                    (t "add a fresh scope to")
+                    (hbl-append
+                     (blank 30 0)
+                     (vl-append
+                      (t "everything in the")
+                      (t "output of expansion,")
+                      (t "but that is not in the")
+                      (t "input"))))
+                   "red")
+         n2c)
+        (htl-append
+         40
+         (cellophane (inset/2-right the-before-pict) n2b)
+         (cellophane (inset/2-right the-after-pict) n2c)))
+       (- 1 n2d))
       (cellophane
        (vl-append
         4
+        (blank 0 20)
         (t "Facilitating macro cooperation:")
         (hc-append
          (blank 20 0)
@@ -179,9 +111,54 @@
           (hbl-append (t "• Introspect on Γ with ") (tt "syntax-local-value"))
           (hbl-append (t "• Use ")
                       (tt "local-expand") (t " to expand from ") (it "inside") (t " a macro")))))
-       n)))))
-         
+       n2e))))
 
+  (play-n
+   (λ (n1 n1b n2 n2a n2b n2c n2d n2e n3 n3b)
+
+     (define plain-eval (code eval))
+     (define eval-arrow
+       (refocus (lb-superimpose plain-eval
+                                (colorize (cellophane arrow-with-dot-on-arrowhead n3b) "red"))
+                plain-eval))
+
+     (define (show p phase)
+       (cellophane
+        p
+        (case phase
+          [(1) (- 1 n1)]
+          [(2) (* n1 (- 1 n2))]
+          [(3) (* n1 n2 (- 1 n3))]
+          [(4) (* n1 n2 n3)])))
+     (vl-append
+
+      (lt-superimpose (show (t "Case 1: found a core form") 1)
+                      (show (t "Case 1: found a core form that binds a variable") 2)
+                      (show (t "Case 2: found a macro") 3)
+                      (show (t "Case 3: found a macro definition") 4))
+
+      (blank 0 30)
+
+      (hc-append
+       (blank 40 0)
+       (lt-superimpose
+        (show case1 1)
+        (hbl-append (show (case1b n1b) 2)
+                    (cellophane (colorize (t "add a fresh scope") "red")
+                                (* n1b (- 1 n2))))
+        (show (case2 n2a) 3)
+        (show (case3 eval-arrow) 4)))
+
+      (blank 0 40)
+      (cellophane (t "where") (- 1 n3))
+
+      (hc-append
+       (blank 40 0)
+
+       (lt-superimpose
+        (show where1 1)
+        (show where1b 2)
+        (show (where2 n2b n2c n2d n2e) 3)))))))
 
 (define (htl-append-with-bar #:gap [gap 0] #:bar-cellophane [bar-cellophane 1] p1 p2)
   (define without-bar (htl-append gap p1 p2))
@@ -206,7 +183,7 @@
             p)
            p))
 
-   
+
 (define expand-p
   (parameterize (#;[current-tt-font "Zapfino"])
     (tt "Expand")))
@@ -214,4 +191,4 @@
 (define (expand-call p [Γ (t "Γ")])
   (htl-append expand-p (t "⟦ ") p (inset (t " , ") 10 0) Γ (t " ⟧")))
 
-(module+ main (communication))
+(module+ main (expander))
