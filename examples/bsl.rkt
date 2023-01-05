@@ -1,7 +1,7 @@
-#lang htdp/bsl
+#lang racket
 
 ;; len : list-of-anything -> number
-(define (howmany my-list)
+(define (len l)
   (cond
-    [(empty? my-list) empty]
-    [else (+ 1 (howmany (rest my-list)))]))
+    [(empty? l) empty]
+    [else (+ 1 len(rest l))]))
