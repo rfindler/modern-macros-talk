@@ -3,6 +3,7 @@
          "../lib/util.rkt"
          "../lib/title.rkt"
          "open-compiler.rkt"
+         racket/gui/base
          slideshow slideshow/play pict/shadow)
 
 (provide introduction)
@@ -37,13 +38,14 @@
                              (+ client-h margin margin))
            plt-background-color)
           (- margin))
-   (make-plt-title-background plt-red-color
-                              plt-blue-color 
-                              plt-background-color
-                              plt-lambda-color
-                              plt-pen-color 
-                              plt-pen-style
-                              #:clip? #f)))
+   (inset (make-plt-title-background plt-red-color
+                                     plt-blue-color
+                                     (make-object color% 0 0 0 0) ; plt-background-color
+                                     plt-lambda-color
+                                     plt-pen-color
+                                     plt-pen-style
+                                     #:clip? #f)
+          -800 0 0 -400)))
 
 (define (title->thesis)
   (define title (scale (t "Modern Macros") 2))
