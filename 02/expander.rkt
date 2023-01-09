@@ -11,7 +11,7 @@
 
       (hbl-append (t "We need a driver loop; ")
                   (inset expand-p 8 0)
-                  (t " does that job"))
+                  (t " is that loop"))
 
       (vl-append
        (hbl-append expand-p (tt " : syntax-object (id → val) → syntax-object"))
