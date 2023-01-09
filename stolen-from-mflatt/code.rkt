@@ -156,7 +156,7 @@
                (cond
                 [(zero? skip)
                  ((if fill?
-                      filled-rounded-rectangle
+                      (λ (w h n) (filled-rounded-rectangle w h n #:draw-border? #f))
                       rounded-rectangle)
                   w h 5)]
                 [else
@@ -167,7 +167,10 @@
                  (send p line-to w (* h skip))
                  (send p close)
                  (dc (lambda (dc x y)
-                       (send dc draw-path p x y))
+                       (define old-pen (send dc get-pen))
+                       (send dc set-pen "black" 1 'transparent)
+                       (send dc draw-path p x y)
+                       (send dc set-pen old-pen))
                      w h)]))
               col)
     p)
