@@ -50,12 +50,12 @@
                    e2))])))
      (define phase1
        (code
-        (#,(become (code define) (code define-syntax) n1) (transform-or stx)
+        (#,(become (code define) (code define-syntax) n1) (transform-or stx-obj)
           #,body1)))
      (define phase2
        (code
         (define-syntax transform-or
-          (λ (stx)
+          (λ (stx-obj)
             #,body2))))
 
      (define words-on-side-indent (blank 30 0))
