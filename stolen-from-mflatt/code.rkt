@@ -692,7 +692,7 @@
          scope1
          #:out 3
          (code
-          (define #,x1 1)
+          (define #,(encolors x1 scope1) 1)
           code:blank
           #,(let-syntax ([let (make-code-transformer #'(encolors (code let) scope1 #:int? #t))])
               (code
