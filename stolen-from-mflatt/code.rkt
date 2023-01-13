@@ -325,8 +325,7 @@
                                #:show-final? [show-final? show-done?]
                                #:show-match? [show-match? #f]
                                #:show-expand? [show-expand? show-final?])
-      (let* ([ord (encolors (code premade-or) module-scope scope1)]
-             [x (encolors (if show-renamed? (code x) (code x)) module-scope scope1)]
+      (let* ([x (encolors (if show-renamed? (code x) (code x)) module-scope scope1)]
              [x.1 (cond
                    [show-renamed? original-y-mark]
                    [else (launder x)])]
