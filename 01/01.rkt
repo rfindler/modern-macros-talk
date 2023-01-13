@@ -29,7 +29,7 @@
   (important-papers)
 
   (with-title "What is an Open Compiler?"
-    (open-compiler)))
+    (open-compiler-part1)))
 
 (define plt-title-background-with-insets
   (cc-superimpose
