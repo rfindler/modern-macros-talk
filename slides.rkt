@@ -13,22 +13,23 @@
 (introduction)
 
 (stx-obj)
-(open-compiler-part2)
+(with-title "Breaking up is hard to do...." (open-compiler-part2))
 (expander)
 (module-system)
 
-(slide
- (vl-append
-  (vl-append
-   20
-   (t "Recap:")
-   (t "   • Syntax Objects: data structure representing the AST")
-   (t "   • The Expander: how we stitch the pieces together")
-   (t "   • The Module System: how we find the pieces"))
+(with-title "Recap"
+  (slide
+   (vl-append
+    (vl-append
+     20
+     (t "Recap:")
+     (t "   • Syntax Objects: data structure representing the AST")
+     (t "   • The Expander: how we stitch the pieces together")
+     (t "   • The Module System: how we find the pieces"))
 
-  (blank 0 100)
+    (blank 0 100)
  
-  (t "Now: what can we do with all this?")))
+    (t "Now: what can we do with all this?"))))
 
 (existing-cool-things)
 (ide-cool-things)

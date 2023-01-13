@@ -62,8 +62,7 @@
             (code [(or a b) (compile (let ([x a])
                                        (if x x b)) #,maybe-Γ)])
             (code [(let ([x a]) b) (let ([x (compile a #,maybe-Γ)])
-                                     (compile b #,maybe-Γ))])
-            (code [const const])))
+                                     (compile b #,maybe-Γ))])))
 
     (define or-clause-index 3)
      
@@ -130,8 +129,9 @@
                                          0 (* n extra-space)
                                          0 (* n extra-space)))))))
                   20)
-                 (clip (inset (cellophane things-to-do (if (= n-b5 1) 1 0))
-                              0 0 (- (* (pict-width things-to-do) (- 1 n-b5))) 0))))
+                 (inset (clip (inset (cellophane things-to-do (if (= n-b5 1) 1 0))
+                                     0 0 (- (* (pict-width things-to-do) (- 1 n-b5))) 0))
+                        -20 0 0 0)))
 
     (define (add-arrows-between-boxes n . boxes)
       (define main (apply hc-append 80 boxes))
