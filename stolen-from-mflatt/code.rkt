@@ -687,7 +687,8 @@
     (define (mk-p body post encolors
                   #:encolor [encolor encolor])
       (pad-use-of-or
-       (encolor
+       (vl-append
+        (encolor
          scope1
          #:out 3
          (code
@@ -702,7 +703,8 @@
                     (let-syntax ([λ (make-code-transformer #'(encolors (code λ) scope1 scope2 #:int? #t))])
                       (code
                        (λ (#,(encolors x3 scope1 scope2 scope3))
-                         #,(encolor scope3 #:out 1 body))))))))))))
+                         #,(encolor scope3 #:out 1 body))))))))))
+        post)))
     (define (mk-p1 encolors #:encolor [encolor encolor])
       (define or-id (encolors (code or) scope1 scope2 scope3))
       (mk-p (code (#,or-id #,(encolors x4 scope1 scope2 scope3 #:int? #t) #,(encolors y2  scope1 scope2 scope3 #:int? #t)))
