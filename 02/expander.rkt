@@ -9,15 +9,17 @@
      (vl-append
       40
 
-      (hbl-append (t "We need a driver loop; ")
-                  (inset expand-p 8 0)
-                  (t " is that loop"))
+      (table 3
+             (list expand-p (tt ":") (tt "syntax-object")
+                   (blank)  (blank)  (tt "(id → val)")
+                   (blank)  (tt "→") (tt "syntax-object"))
+             (list rbl-superimpose rbl-superimpose lbl-superimpose)
+             (list rbl-superimpose rbl-superimpose lbl-superimpose)
+             10
+             0)
+      (t "the environment tracks the macros in scope")
 
-      (vl-append
-       (hbl-append expand-p (tt " : syntax-object (id → val) → syntax-object"))
-       (t "the environment tracks the macros in scope"))
-
-      (t "There are 3 interesting cases")))
+      (t "there are 3 interesting cases")))
 
     (expand-cases)))
 
@@ -114,8 +116,9 @@
        n2e))))
 
   (play-n
-   (λ (n1 n1b n2 n2a n2b n2c n2d n2e n3 n3b)
-
+   (λ (#;n1 n1b n2 n2a n2b n2c n2d n2e n3 n3b)
+     (define n1 1)
+     ;(define n1b 1)
      (define plain-eval (code eval))
      (define eval-arrow
        (refocus (lb-superimpose plain-eval
@@ -133,7 +136,7 @@
      (vl-append
 
       (lt-superimpose (show (t "Case 1: found a core form") 1)
-                      (show (t "Case 1: found a core form that binds a variable") 2)
+                      (show (t "Case 1: found a core form") 2) ;; used to say "that binds a variable"
                       (show (t "Case 2: found a macro") 3)
                       (show (t "Case 3: found a macro definition") 4))
 

@@ -42,24 +42,27 @@
                     (pict-width back-end))
                100))
   (define the-box (linewidth box-linewidth (frame (blank s s))))
-  (define front-end-small (cc-superimpose the-box front-end))
   (define parser-box (cc-superimpose the-box parser))
   (define middle-end-box (add-self-loop (cc-superimpose the-box middle-end)))
   (define back-end-box (cc-superimpose the-box back-end))
 
   (define exp (code exp))
   
-  (λ (n-a1 n-a2 n-a3 n-a4 n-a5 n-b1 n-b2 n-b3 n-b4)
+  (λ (n-a1 n-a2 n-a3 n-a4 n-a5 n-b1 n-b2 n-b3 n-b4 n-b5 n-b6)
+    (define Γ (cellophane (code Γ) (if (= 1 n-b6) 1 0)))
+    (define maybe-Γ
+      (clip/to-zero
+       (inset Γ 0 0 (* (- (+ (pict-width (tt " ")) (pict-width Γ))) (- 1 n-b6)) 0)))
     (define plain-clauses
-      (list (code [(if a b c) (if (compile a)
-                                  (compile b)
-                                  (compile c))])
-            (code [(+ a ...) (+ (compile a) ...)])
-            (code [(and a b) (compile (if a b #f))])
+      (list (code [(if a b c) (if (compile a #,maybe-Γ)
+                                  (compile b #,maybe-Γ)
+                                  (compile c #,maybe-Γ))])
+            (code [(+ a ...) (+ (compile a #,maybe-Γ) ...)])
+            (code [(and a b) (compile (if a b #f) #,maybe-Γ)])
             (code [(or a b) (compile (let ([x a])
-                                       (if x x b)))])
-            (code [(let ([x a]) b) (let ([x (compile a)])
-                                     (compile b))])
+                                       (if x x b)) #,maybe-Γ)])
+            (code [(let ([x a]) b) (let ([x (compile a #,maybe-Γ)])
+                                     (compile b #,maybe-Γ))])
             (code [const const])))
 
     (define or-clause-index 3)
@@ -97,18 +100,38 @@
                       (frame+cellophane to-frame fading-for-non-or-clauses)
                       (frame to-frame)))))
   
+    (define things-to-do
+      (vl-append
+       (t "Issues:")
+       (hc-append
+        (blank 20 0)
+        (vl-append
+         10
+         (t "• open recursion")
+         (t "• identify the cases")
+         (t "• find each transformation")
+         (vl-append (t "• facilitating communication")
+                    (hbl-append (ghost (t "• ")) (t "between cases"))))
+        (blank 20 0))
+       (blank 0 20)
+       (vl-append (t "The overall transformation")
+                  (t "is implicit in the cases"))
+       (blank 0 100)))
+
     (define (compiler/code n)
-      (inset
-       (code
-        (define (compile #,exp)
-          (syntax-parse exp
-            #,(apply vl-append
-                     (for/list ([clause (in-list clauses)])
-                       (define extra-space 14)
-                       (inset clause
-                              0 (* n extra-space)
-                              0 (* n extra-space)))))))
-       20))
+      (hc-append (inset
+                  (code
+                   (define (compile #,exp #,maybe-Γ)
+                     (syntax-parse exp
+                       #,(apply vl-append
+                                (for/list ([clause (in-list clauses)])
+                                  (define extra-space 14)
+                                  (inset clause
+                                         0 (* n extra-space)
+                                         0 (* n extra-space)))))))
+                  20)
+                 (clip (inset (cellophane things-to-do (if (= n-b5 1) 1 0))
+                              0 0 (- (* (pict-width things-to-do) (- 1 n-b5))) 0))))
 
     (define (add-arrows-between-boxes n . boxes)
       (define main (apply hc-append 80 boxes))
@@ -127,14 +150,14 @@
       (slide-and-scale/all
        (add-arrows-between-boxes
         n-a3
-        parser-box
-        (refocus (cc-superimpose (cc-superimpose
-                                  (cellophane front-end (- 1 n-a2))
-                                  big-box)
-                                 (cellophane (compiler/code n-a3) n-a2))
-                 big-box)
-        middle-end-box
-        back-end-box) 
+        (cellophane parser-box (- 1 n-b5))
+        (hc-append (refocus (cc-superimpose (cc-superimpose
+                                             (cellophane front-end (- 1 n-a2))
+                                             big-box)
+                                            (cellophane (compiler/code n-a3) n-a2))
+                            big-box))
+        (cellophane middle-end-box (- 1 n-b5))
+        (cellophane back-end-box (- 1 n-b5)))
        big-box
        n-a3))
     (define slid-over
@@ -146,18 +169,23 @@
      (add-line-from-if-case-to-and-case
       (add-line-from-and-case-to-if-case
        (add-line-to-if-case
-        (show-circle slid-over exp n-a4)
-        exp (car clauses) n-b2)
-       (car clauses) (list-ref clauses 2) n-b4)
-      (car clauses) (list-ref clauses 2) n-b3 (fast-start n-b4))
-     (car clauses) (last clauses) n-b4)))
+        (show-circle slid-over exp n-a4 n-b5)
+        exp (car clauses) n-b2 n-b5)
+       (car clauses) (list-ref clauses 2) n-b4 n-b5)
+      (car clauses) (list-ref clauses 2) n-b3 (fast-start n-b4) n-b5)
+     (car clauses) (list-ref clauses 4) n-b4 n-b5)))
+
+(define (clip/to-zero p)
+  (cond
+    [(<= (pict-width p) 0) p]
+    [else (clip p)]))
 
 (define (frame+cellophane p n)
   (cc-superimpose
    (cellophane (frame (ghost (launder p))) n)
    p))
   
-(define (show-circle main exp n)
+(define (show-circle main exp n go-away-n)
   (define ghosted (ghost (launder exp)))
   (define circle-around-exp
     (refocus (cc-superimpose
@@ -169,7 +197,7 @@
                  (rounded-rectangle (+ (pict-width exp) 10)
                                     (+ (pict-height exp) 10))
                  "red"))
-               n))
+               (* n (- 1 go-away-n))))
               ghosted))
   (pin-over
    main
@@ -177,7 +205,7 @@
    lt-find
    circle-around-exp))
 
-(define (add-line-to-if-case main exp if-clause n)
+(define (add-line-to-if-case main exp if-clause n go-away-n)
   (cc-superimpose
    main
    (cellophane
@@ -196,9 +224,9 @@
         #:end-angle (- (/ pi 2))
         ))
       "red"))
-    n)))
+    (* n (- 1 go-away-n)))))
 
-(define (add-line-from-if-case-to-and-case main if-clause and-clause n arrow-move-n)
+(define (add-line-from-if-case-to-and-case main if-clause and-clause n arrow-move-n go-away-n)
   (cc-superimpose
    main
    (cellophane
@@ -219,9 +247,9 @@
         #:end-pull 1/2
         ))
       "red"))
-    n)))
+    (* n (- 1 go-away-n)))))
 
-(define (add-line-from-and-case-to-if-case main and-clause if-clause n)
+(define (add-line-from-and-case-to-if-case main and-clause if-clause n go-away-n)
   (cc-superimpose
    main
    (cellophane
@@ -242,9 +270,9 @@
         #:end-pull 1/2
         ))
       "red"))
-    n)))
+    (* n (- 1 go-away-n)))))
 
-(define (add-line-from-if-case-to-let-case main if-clause let-clause n)
+(define (add-line-from-if-case-to-let-case main if-clause let-clause n go-away-n)
   (cc-superimpose
    main
    (cellophane
@@ -265,7 +293,7 @@
         #:end-pull 1/3
         ))
       "red"))
-    n)))
+    (* n (- 1 go-away-n)))))
 
 (define ((%%-find %w %h) p m)
   (define-values (l t) (lt-find p m))
