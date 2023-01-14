@@ -41,14 +41,12 @@
      (vl-append
       (expand-call (code #'(m e1 ...)))
       (t "=")
-      (expand-call (code ((#,(t "λ") (stx) e2)
-                          #'(m e1 ...)))))
+      (expand-call (f-call (code #'(m e1 ...)))))
      (cellophane
       (vl-append
        (expand-call (code #'m))
        (t "=")
-       (expand-call (code ((#,(t "λ") (stx) e2)
-                           #'m)))) n2a)))
+       (expand-call (f-call (code #'m)))) n2a)))
   (define (case3 eval-p)
     (vl-append
      (expand-call (code #'(let-syntax ([id proc-e]) body-e)))
@@ -80,7 +78,7 @@
   (define (where2 n2b n2c n2d n2e)
     (vl-append
      40
-     (hbl-append (t "Γ(") (code #'m) (t ") = ") (code (λ (stx) e2)))
+     (hbl-append (t "Γ(") (code #'m) (t ") = ") (tt "f"))
      (lt-superimpose
       (cellophane
        (hc-append
@@ -193,5 +191,8 @@
 
 (define (expand-call p [Γ (t "Γ")])
   (htl-append expand-p (t "⟦ ") p (inset (t " , ") 10 0) Γ (t " ⟧")))
+
+(define (f-call p)
+  (htl-append (tt "f") (t "⟦ ") p (t " ⟧")))
 
 (module+ main (expander))
