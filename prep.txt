@@ -1,6 +1,6 @@
 -- initial window of programs:
 
-     open reactor.rkt recursive.rkt dssl2.rkt
+     open reactor.rkt recursive.rkt dssl2.rkt datalog.rkt
 
 -- programs for later:
 
