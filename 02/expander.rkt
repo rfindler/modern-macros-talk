@@ -56,14 +56,10 @@
                               (code (#,eval-p #'proc-e))
                               (t " }")))))
 
-  (define where1b
-    (vl-append
-     (hbl-append (code e1′) (t " = ") (expand-call (code e1)))
-     (hbl-append (code e2′) (t " = ") (expand-call (code e2)))))
-
   (define where1
     (vl-append
-     where1b
+     (hbl-append (code e1′) (t " = ") (expand-call (code e1)))
+     (hbl-append (code e2′) (t " = ") (expand-call (code e2)))
      (hbl-append (code e3′) (t " = ") (expand-call (code e3)))))
 
   (define (inset/2-right p)
@@ -114,9 +110,7 @@
        n2e))))
 
   (play-n
-   (λ (n1 #;n1b #;n2 n2a n2b n2c n2d n2e n3 n3b)
-     (define n1b 1)
-     (define n2 1)
+   (λ (n1 n2a n2b n2c n2d n2e n3 n3b)
      (define plain-eval (code eval))
      (define eval-arrow
        (refocus (lb-superimpose plain-eval
@@ -128,13 +122,11 @@
         p
         (case phase
           [(1) (- 1 n1)]
-          [(2) (* n1 (- 1 n2))]
-          [(3) (* n1 n2 (- 1 n3))]
-          [(4) (* n1 n2 n3)])))
+          [(3) (* n1 (- 1 n3))]
+          [(4) (* n1 n3)])))
      (vl-append
 
       (lt-superimpose (show (t "Case 1: found a core form") 1)
-                      (show (t "Case 1: found a core form") 2) ;; used to say "that binds a variable"
                       (show (t "Case 2: found a macro") 3)
                       (show (t "Case 3: found a macro definition") 4))
 
@@ -144,9 +136,6 @@
        (blank 40 0)
        (lt-superimpose
         (show case1 1)
-        (hbl-append (show (case1b n1b) 2)
-                    (cellophane (colorize (t "add a fresh scope") "red")
-                                (* n1b (- 1 n2))))
         (show (case2 n2a) 3)
         (show (case3 eval-arrow) 4)))
 
@@ -158,7 +147,6 @@
 
        (lt-superimpose
         (show where1 1)
-        (show where1b 2)
         (show (where2 n2b n2c n2d n2e) 3)))))))
 
 (define (htl-append-with-bar #:gap [gap 0] #:bar-cellophane [bar-cellophane 1] p1 p2)
