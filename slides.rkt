@@ -10,6 +10,24 @@
          "05/thanks.rkt"
          slideshow)
 
+#|
+
+
+Gamma's argument on 252 should be #'m
+Look up a "f" inside Gamma (tt lowercase f), instead of showing syntax; right now this looks confusing
+and maybe this makes the calls on one line but if not, Gamma isn't lined up right
+
+change the order of the expander cases to emphasize that (the current) case 1 is the only case that's left (so do it last).
+
+swap the expander to come before the syntax objects;
+  -- move the "adding scopes" discussion in the expander out into the syntax object part
+  --- bring in the "equivlance relation on identifiers" idea when looking at the
+      compiler in the "or" case and set up some discussion to come later about
+      equivalence relations on identifiers (need to think about this)
+
+
+|#
+
 (introduction)
 
 (stx-obj)
