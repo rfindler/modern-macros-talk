@@ -80,7 +80,7 @@
   (define (where2 n2b n2c n2d n2e)
     (vl-append
      40
-     (hbl-append (t "Γ(") (code m) (t ") = ") (code (λ (stx) e2)))
+     (hbl-append (t "Γ(") (code #'m) (t ") = ") (code (λ (stx) e2)))
      (lt-superimpose
       (cellophane
        (hc-append

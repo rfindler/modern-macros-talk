@@ -13,7 +13,6 @@
 #|
 
 
-Gamma's argument on 252 should be #'m
 Look up a "f" inside Gamma (tt lowercase f), instead of showing syntax; right now this looks confusing
 and maybe this makes the calls on one line but if not, Gamma isn't lined up right
 
