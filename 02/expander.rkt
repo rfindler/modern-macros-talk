@@ -114,9 +114,9 @@
        n2e))))
 
   (play-n
-   (λ (#;n1 n1b n2 n2a n2b n2c n2d n2e n3 n3b)
-     (define n1 1)
-     ;(define n1b 1)
+   (λ (n1 #;n1b #;n2 n2a n2b n2c n2d n2e n3 n3b)
+     (define n1b 1)
+     (define n2 1)
      (define plain-eval (code eval))
      (define eval-arrow
        (refocus (lb-superimpose plain-eval
