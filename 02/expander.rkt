@@ -1,7 +1,10 @@
 #lang racket
 (require "../lib/setup.rkt" "../lib/util.rkt" "../stolen-from-mflatt/code.rkt"
          slideshow slideshow/play slideshow/code)
-(provide expander)
+(provide expander expand-case-2-reminder)
+
+(define (expand-case-2-reminder)
+  ((expand-cases-proc) 1 1 1 1 0))
 
 (define (expander)
   (with-title "The Expander"
@@ -20,9 +23,9 @@
 
       (t "there are 3 interesting cases")))
 
-    (expand-cases)))
+    (play-n (expand-cases-proc))))
 
-(define (expand-cases)
+(define (expand-cases-proc)
   (define (case1 n2a)
     (htl-append-with-bar
      #:gap 50
@@ -73,40 +76,39 @@
      (hbl-append (code e2′) (t " = ") (expand-call (code e2)))
      (hbl-append (code e3′) (t " = ") (expand-call (code e3)))))
 
-  (play-n
-   (λ (n1a n1b n2a n2b n3)
+  (λ (n1a n1b n2a n2b n3)
 
-     (define (show p phase)
-       (cellophane
-        p
-        (case phase
-          [(1) (- 1 n2a)]
-          [(2) (* n2a (- 1 n3))]
-          [(3) n3])))
-     (vl-append
+    (define (show p phase)
+      (cellophane
+       p
+       (case phase
+         [(1) (- 1 n2a)]
+         [(2) (* n2a (- 1 n3))]
+         [(3) n3])))
+    (vl-append
 
-      (lt-superimpose (show (t "Case 1: found a macro") 1)
-                      (show (t "Case 2: found a macro definition") 2)
-                      (show (t "Case 3: found a core form") 3))
+     (lt-superimpose (show (t "Case 1: found a macro") 1)
+                     (show (t "Case 2: found a macro definition") 2)
+                     (show (t "Case 3: found a core form") 3))
 
-      (blank 0 30)
+     (blank 0 30)
 
-      (hc-append
-       (blank 40 0)
-       (lt-superimpose
-        (show (case1 n1a) 1)
-        (show (case2 n2b) 2)
-        (show case3 3)))
+     (hc-append
+      (blank 40 0)
+      (lt-superimpose
+       (show (case1 n1a) 1)
+       (show (case2 n2b) 2)
+       (show case3 3)))
 
-      (blank 0 40)
-      (cellophane (t "where") (if (= n3 0) (- 1 n2a) n3))
+     (blank 0 40)
+     (cellophane (t "where") (if (= n3 0) (- 1 n2a) n3))
 
-      (hc-append
-       (blank 40 0)
+     (hc-append
+      (blank 40 0)
 
-       (lt-superimpose
-        (show (where1 n1b) 1)
-        (show where3 3)))))))
+      (lt-superimpose
+       (show (where1 n1b) 1)
+       (show where3 3))))))
 
 (define (htl-append-with-bar #:gap [gap 0] #:bar-cellophane [bar-cellophane 1] p1 p2)
   (define without-bar (htl-append gap p1 p2))
@@ -147,9 +149,9 @@
 
 (define (eval-call p [n 0])
   (htl-append (refocus (lb-superimpose (inset eval-p -4 0 0 -10)
-                                       (colorize (frame (cellophane arrow-with-dot-on-arrowhead n)) "red"))
+                                       (colorize (cellophane arrow-with-dot-on-arrowhead n) "red"))
                        eval-p)
               (t "⟦ ") p (t " ⟧")))
 
 (module+ main
-  (expander))
+  (slide (expand-case-2-reminder)))

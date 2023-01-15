@@ -1,6 +1,7 @@
 #lang racket
 (require "../lib/setup.rkt" "../lib/util.rkt"
          "deepest-pkg-paths.rkt"
+         "expander.rkt"
          slideshow slideshow/play slideshow/code)
 
 (provide module-system)
@@ -14,16 +15,21 @@
 
 
 (define (let-stx-vs-def-stx)
-  (slide
-   (vl-append
-    10
-    (t "Sidebar:")
-    (hc-append (blank 30 0)
-               (vl-append
-                10
-                (code (let-syntax ([id proc-e]) body-e))
-                (t "vs")
-                (code (define-syntax id proc-e)))))))
+  (play-n
+   (λ (n)
+     (cb-superimpose
+      (expand-case-2-reminder)
+      (cellophane
+       (vl-append
+        10
+        (t "Sidebar:")
+        (hc-append (blank 30 0)
+                   (vl-append
+                    10
+                    (code (let-syntax ([id proc-e]) body-e))
+                    (t "vs")
+                    (code (define-syntax id proc-e)))))
+       n)))))
 
 (define (dependencies-motivation)
   (define space (blank (* client-w 3/4) (* client-h 1/2)))
