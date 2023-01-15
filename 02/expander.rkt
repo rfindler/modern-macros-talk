@@ -28,32 +28,32 @@
      #:gap 50
      #:bar-cellophane n2a
      (vl-append
-      (expand-call (code #'(m e1 ...)))
+      (expand-call (code (m e1 ...)))
       (t "=")
-      (expand-call (f-call (code #'(m e1 ...)))))
+      (expand-call (f-call (code (m e1 ...)))))
      (cellophane
       (vl-append
-       (expand-call (code #'m))
+       (expand-call (code m))
        (t "=")
-       (expand-call (f-call (code #'m)))) n2a)))
-  (define (case2 eval-p)
+       (expand-call (f-call (code m)))) n2a)))
+  (define (case2 n)
     (vl-append
-     (expand-call (code #'(let-syntax ([id proc-e]) body-e)))
+     (expand-call (code (let-syntax ([id proc-e]) body-e)))
      (t "=")
-     (expand-call (code #'body-e)
-                  (hbl-append (t "Γ + { ") (code #'id) (t " → ")
-                              (code (#,eval-p #'proc-e))
+     (expand-call (code body-e)
+                  (hbl-append (t "Γ + { ") (code id) (t " → ")
+                              (eval-call (code proc-e) n)
                               (t " }")))))
   (define case3
     (vl-append
-     (expand-call (code #'(if e1 e2 e3)))
+     (expand-call (code (if e1 e2 e3)))
      (t "=")
-     (code #'(if e1′ e2′ e3′))))
+     (code (if e1′ e2′ e3′))))
 
   (define (where1 n1d)
     (vl-append
      40
-     (hbl-append (t "Γ(") (code #'m) (t ") = ") (tt "f"))
+     (hbl-append (t "Γ(") (code m) (t ") = ") f-p)
      (cellophane
       (vl-append
        4
@@ -75,11 +75,6 @@
 
   (play-n
    (λ (n1a n1b n2a n2b n3)
-     (define plain-eval (code eval))
-     (define eval-arrow
-       (refocus (lb-superimpose plain-eval
-                                (colorize (cellophane arrow-with-dot-on-arrowhead n2b) "red"))
-                plain-eval))
 
      (define (show p phase)
        (cellophane
@@ -100,7 +95,7 @@
        (blank 40 0)
        (lt-superimpose
         (show (case1 n1a) 1)
-        (show (case2 eval-arrow) 2)
+        (show (case2 n2b) 2)
         (show case3 3)))
 
       (blank 0 40)
@@ -137,14 +132,24 @@
            p))
 
 
-(define expand-p
-  (parameterize (#;[current-tt-font "Zapfino"])
-    (tt "Expand")))
+(define-values (expand-p eval-p f-p)
+  (parameterize ([current-main-font (check-font "Brush Script MT")]
+                 [current-font-size 48])
+    (values (t "Expand")
+            (t "Eval")
+            (t "F"))))
 
 (define (expand-call p [Γ (t "Γ")])
   (htl-append expand-p (t "⟦ ") p (inset (t " , ") 10 0) Γ (t " ⟧")))
 
 (define (f-call p)
-  (htl-append (t " ") (tt "f") (t "⟦ ") p (t " ⟧")))
+  (htl-append (t " ") f-p (t "⟦ ") p (t " ⟧")))
 
-(module+ main (expander))
+(define (eval-call p [n 0])
+  (htl-append (refocus (lb-superimpose (inset eval-p -4 0 0 -10)
+                                       (colorize (frame (cellophane arrow-with-dot-on-arrowhead n)) "red"))
+                       eval-p)
+              (t "⟦ ") p (t " ⟧")))
+
+(module+ main
+  (expander))

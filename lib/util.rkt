@@ -7,7 +7,8 @@
   [fade-in-pointer (->* (pict? (real-in 0 1)) (#:superimpose any/c) pict?)]
   [interpolate (-> real? real? (real-in 0 1) real?)]
   [arrow-with-dot-on-arrowhead pict?])
- lbl-stages)
+ lbl-stages
+ check-font)
 (define (interpolate v1 v2 n) (+ v1 (* n (- v2 v1))))
 
 (define arrow-with-dot-on-arrowhead
