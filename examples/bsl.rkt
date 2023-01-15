@@ -1,4 +1,4 @@
-#lang htdp/bsl
+#lang racket
 
 ;; len : list-of-anything -> number
 (define (len l)
