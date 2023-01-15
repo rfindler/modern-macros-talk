@@ -7,7 +7,7 @@
   (with-title "The Expander"
     (slide
      (vl-append
-      40
+      80
 
       (table 3
              (list expand-p (tt ":") (tt "syntax-object")

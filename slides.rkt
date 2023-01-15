@@ -10,17 +10,6 @@
          "05/thanks.rkt"
          slideshow)
 
-#|
-
-swap the expander to come before the syntax objects;
-  -- move the "adding scopes" discussion in the expander out into the syntax object part
-  --- bring in the "equivlance relation on identifiers" idea when looking at the
-      compiler in the "or" case and set up some discussion to come later about
-      equivalence relations on identifiers (need to think about this)
-
-
-|#
-
 (introduction)
 (expander)
 (with-title "Syntax Objects: Representing Scope" (open-compiler-part2))

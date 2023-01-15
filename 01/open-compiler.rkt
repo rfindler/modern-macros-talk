@@ -108,7 +108,7 @@
             (vl-append
              10
              (t "• identify the next case")
-             (t "• find each transformation")
+             (t "• find the transformation")
              (t "• open recursion")
              (vl-append (t "• facilitating communication")
                         (hbl-append (ghost (t "• ")) (t "between cases"))))
