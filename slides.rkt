@@ -16,7 +16,7 @@
 (stx-obj)
 (module-system)
 
-(with-title "Recap"
+(with-title "Recap: the essentials of a modern macro system"
   (slide
    (vl-append
     (vl-append
