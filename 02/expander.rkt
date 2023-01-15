@@ -4,7 +4,7 @@
 (provide expander expand-case-2-reminder)
 
 (define (expand-case-2-reminder)
-  ((expand-cases-proc) 1 1 1 1 0))
+  ((expand-cases-proc #t) 1 1 1 1 0))
 
 (define (expander)
   (with-title "The Expander"
@@ -23,9 +23,9 @@
 
       (t "there are 3 interesting cases")))
 
-    (play-n (expand-cases-proc))))
+    (play-n (expand-cases-proc #f))))
 
-(define (expand-cases-proc)
+(define (expand-cases-proc revising-for-eval?)
   (define (case1 n2a)
     (htl-append-with-bar
      #:gap 50
@@ -88,7 +88,10 @@
     (vl-append
 
      (lt-superimpose (show (t "Case 1: found a macro") 1)
-                     (show (t "Case 2: found a macro definition") 2)
+                     (show (if revising-for-eval?
+                               (colorize (t "So: what about that eval?") "red")
+                               (t "Case 2: found a macro definition"))
+                           2)
                      (show (t "Case 3: found a core form") 3))
 
      (blank 0 30)

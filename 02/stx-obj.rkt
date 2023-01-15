@@ -65,14 +65,7 @@
                                             (t "⋯")))
       (list* rbl-superimpose rbl-superimpose lbl-superimpose)
       rbl-superimpose
-      10 0)
-     (blank) (blank)
-     (vc-append
-      (t "Just a data structure:")
-      (hbl-append (it "wrong")
-                  (t " colors means ")
-                  (it "wrong")
-                  (t " scope")))))
+      10 0)))
 
   (with-title "Working with Syntax Objects"
     (pattern-match-and-construct)))

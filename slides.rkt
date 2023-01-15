@@ -24,7 +24,7 @@
      (t "Recap:")
      (t "   • The Expander: a driver loop for front-end compilation")
      (t "   • Syntax Objects: data structure representing the AST")
-     (hbl-append (t "   • The Module System: managing dependencies across compile")
+     (hbl-append (t "   • The Module System: dependencies across compile")
                  (parameterize ([current-main-font (cons 'superscript (current-main-font))])
                    (t "n"))
                  (t " times")))
