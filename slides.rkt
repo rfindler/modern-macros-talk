@@ -12,8 +12,6 @@
 
 #|
 
-change the order of the expander cases to emphasize that (the current) case 1 is the only case that's left (so do it last).
-
 swap the expander to come before the syntax objects;
   -- move the "adding scopes" discussion in the expander out into the syntax object part
   --- bring in the "equivlance relation on identifiers" idea when looking at the

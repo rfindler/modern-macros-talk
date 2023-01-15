@@ -4,16 +4,39 @@
          "../stolen-from-mflatt/code.rkt"
          slideshow/code)
 
-;; syntax objects are trees;
-;;   -- parens are the children
-;;   -- but there is also information that covers scopes.
-;;   -- this is an approximation to the data definiton:
-;;     stx-obj = scopes × properties × tree
-;;     tree    = (listof stx-obj) | bool | symbol | number | ...
-;;   -- 
-;;   -- working directly with the raw data structure is complex
-;;      so there is a DSL that lets you operate on syntax objects via pattern matching
-;;  -- segue into the expander (and how it puts scopes on?)
+
+#;
+(begin
+  ;; this shows how scopes are added when `or` is expanded
+  (require "../stolen-from-mflatt/code.rkt")
+  (define (inset/2-right p)
+    (inset p
+           0 0
+           (- (/ (pict-width p) 2))
+           0))
+  (define the-before-pict (get-just-the-or-expansion-before-pict))
+  (define the-after-pict (get-just-the-or-expansion-after-pict))
+  (λ (n1b n1c n1d)
+    (cellophane
+     (hc-append
+      40
+      (cellophane
+       (colorize (vl-append
+                  (t "add a fresh scope to")
+                  (hbl-append
+                   (blank 30 0)
+                   (vl-append
+                    (t "everything in the")
+                    (t "output of expansion,")
+                    (t "but that is not in the")
+                    (t "input"))))
+                 "red")
+       n1c)
+      (htl-append
+       40
+       (cellophane (inset/2-right the-before-pict) n1b)
+       (cellophane (inset/2-right the-after-pict) n1c)))
+     (- 1 n1d))))
 
 (provide stx-obj)
 
