@@ -12,31 +12,28 @@
   (play-n
    (λ (n)
      (define sorawee (mk-pict+string "Sorawee Porncharoenwase"))
-     (define ryan (mk-pict+string "Ryan Culpepper"))
      (cc-superimpose
       (refocus (lt-superimpose
                 bkg
                 (inset plt-title-background 400 300 0 0))
                bkg)
       (add-background-on-name
-       (add-background-on-name
-        (vl-append
-         60
-         (folks "Macro Paper Authors"
-                "Matthew Flatt" "Matthias Felleisen"
-                "Daniel P. Freidman" "Bruce Duba"
-                "William Clinger" "Jonathan Rees"
-                "R. Kent Dybvig" "Robert Hieb"
-                "Carl Bruggeman" "Mitchell Wand"
-                "Eugene E. Kohlbecker"
-                ryan "Michael Ballantyne"
-                "Alexis King" "Timothy P. Hart")
-         (folks "Language Authors"
-                sorawee
-                "Jesse Tov" "Spencer Florence"
-                "Stephen Chang" "Alex Knauth"
-                "Sam Tobin-Hochstadt"))
-        ryan n)
+       (vl-append
+        60
+        (folks "Macro Paper Authors"
+               "Matthew Flatt" "Matthias Felleisen"
+               "Daniel P. Freidman" "Bruce Duba"
+               "William Clinger" "Jonathan Rees"
+               "R. Kent Dybvig" "Robert Hieb"
+               "Carl Bruggeman" "Mitchell Wand"
+               "Eugene E. Kohlbecker"
+               "Ryan Culpepper" "Michael Ballantyne"
+               "Alexis King" "Timothy P. Hart")
+        (folks "Language Authors"
+               sorawee
+               "Jesse Tov" "Spencer Florence"
+               "Stephen Chang" "Alex Knauth"
+               "Sam Tobin-Hochstadt"))
        sorawee n)))))
 
 (define (add-background-on-name main p+s n)
