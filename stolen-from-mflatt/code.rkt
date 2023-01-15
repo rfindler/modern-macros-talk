@@ -824,6 +824,7 @@
            (bright (bright simple-colors+decide y1) cand2)
            (add-paras (bright (bright simple-colors+decide y1) cand2)
                       (hbl-append (t "use candidate with ") (it "biggest") (t " subset")))
+           simple-colors
            normal-red
            #;
            (extract-layers (lambda (encs #:encolor enc)
@@ -837,8 +838,7 @@
                            `(,scope1 ,scope2 ,scope3 ,scope4))
            #;
            normal-red
-           (bright (add-note normal-red y3 (is-not-subset (encolors (ghost y3) scope4) x-ref))
-                   y2)
+           (add-note normal-red y3 (is-not-subset (encolors (ghost y3) scope4) x-ref))
            ;; don't want to do this here -- we're just talking about the syntax objects
            #;
            (add-paras (mk-expanded encolor encolors #:encolor no-encolor)

@@ -13,9 +13,9 @@
       80
 
       (table 3
-             (list expand-p (tt ":") (tt "syntax-object")
+             (list expand-p (tt ":") (tt "high-level-program")
                    (blank)  (blank)  (tt "(id → val)")
-                   (blank)  (tt "→") (tt "syntax-object"))
+                   (blank)  (tt "→") (tt "program-in-the-ir"))
              (list rbl-superimpose rbl-superimpose lbl-superimpose)
              (list rbl-superimpose rbl-superimpose lbl-superimpose)
              10
@@ -31,9 +31,9 @@
      #:gap 50
      #:bar-cellophane n2a
      (vl-append
-      (expand-call (code (m e1 ...)))
+      (expand-call (code (m e ...)))
       (t "=")
-      (expand-call (f-call (code (m e1 ...)))))
+      (expand-call (f-call (code (m e ...)))))
      (cellophane
       (vl-append
        (expand-call (code m))
@@ -67,7 +67,7 @@
         (vl-append
          (hbl-append (t "• Introspect on Γ with ") (tt "syntax-local-value"))
          (hbl-append (t "• Use ")
-                     (tt "local-expand") (t " to expand from ") (it "inside") (t " a macro")))))
+                     (tt "local-expand") (t " to get IR from ") (it "inside") (t " a macro")))))
       n1d)))
 
   (define where3
