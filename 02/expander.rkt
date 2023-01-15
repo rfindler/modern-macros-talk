@@ -17,7 +17,6 @@
              (list rbl-superimpose rbl-superimpose lbl-superimpose)
              10
              0)
-      (t "the environment tracks the macros in scope")
 
       (t "there are 3 interesting cases")))
 

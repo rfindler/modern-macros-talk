@@ -22,10 +22,9 @@ swap the expander to come before the syntax objects;
 |#
 
 (introduction)
-
-(stx-obj)
-(with-title "Breaking up is hard to do...." (open-compiler-part2))
 (expander)
+(with-title "Syntax Objects: Representing Scope" (open-compiler-part2))
+(stx-obj)
 (module-system)
 
 (with-title "Recap"

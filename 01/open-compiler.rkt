@@ -7,11 +7,12 @@
 
 (provide open-compiler-part1 open-compiler-part2)
 
-(define part-1-phases 5)
+(define part-2-phases 2)
 
 (define (open-compiler-part1)
-  (define play-proc (mk-open-compiler-proc))
+  (define play-proc (mk-open-compiler-proc #f))
   (define total-number-of-phases (procedure-arity play-proc))
+  (define part-1-phases (- total-number-of-phases part-2-phases))
   (play-n
    (procedure-reduce-arity
     (λ args
@@ -19,16 +20,16 @@
     part-1-phases)))
 
 (define (open-compiler-part2)
-  (define play-proc (mk-open-compiler-proc))
+  (define play-proc (mk-open-compiler-proc #t))
   (define total-number-of-phases (procedure-arity play-proc))
-  (define part-2-phases (- total-number-of-phases part-1-phases 1))
+  (define part-1-phases (- total-number-of-phases part-2-phases))
   (play-n
    (procedure-reduce-arity
     (λ args
-      (apply play-proc (append (make-list (+ 1 part-1-phases) 1) args)))
+      (apply play-proc (append (make-list part-1-phases 1) args)))
     part-2-phases)))
 
-(define (mk-open-compiler-proc)
+(define (mk-open-compiler-proc kill-issues?)
   (define parser (scale/improve-new-text (t "parser") 1.5))
   (define front-end (scale/improve-new-text (vc-append (t "front")
                                                        (t "end")) 1.5))
@@ -48,7 +49,7 @@
 
   (define exp (code exp))
   
-  (λ (n-a1 n-a2 n-a3 n-a4 n-a5 n-b1 n-b2 n-b3 n-b4 n-b5 n-b6)
+  (λ (n-a1 n-a2 n-a3 n-a4 n-b3 n-b4 n-b5 n-b6 n-highlight-exp n-fade-except-or)
     (define Γ (cellophane (code Γ) (if (= 1 n-b6) 1 0)))
     (define maybe-Γ
       (clip/to-zero
@@ -66,9 +67,7 @@
 
     (define or-clause-index 3)
      
-    (define fading-for-non-or-clauses (if (= n-b1 1)
-                                          1
-                                          (interpolate 1 .1 n-a5)))
+    (define fading-for-non-or-clauses (interpolate 1 .1 n-fade-except-or))
     (define clauses
       (for/list ([clause (in-list plain-clauses)]
                  [i (in-naturals)])
@@ -100,22 +99,24 @@
                       (frame to-frame)))))
   
     (define things-to-do
-      (vl-append
-       (t "Issues:")
-       (hc-append
-        (blank 20 0)
-        (vl-append
-         10
-         (t "• open recursion")
-         (t "• identify the cases")
-         (t "• find each transformation")
-         (vl-append (t "• facilitating communication")
-                    (hbl-append (ghost (t "• ")) (t "between cases"))))
-        (blank 20 0))
-       (blank 0 20)
-       (vl-append (t "The overall transformation")
-                  (t "is implicit in the cases"))
-       (blank 0 100)))
+      (if kill-issues?
+          (blank)
+          (vl-append
+           (t "Issues:")
+           (hc-append
+            (blank 20 0)
+            (vl-append
+             10
+             (t "• identify the next case")
+             (t "• find each transformation")
+             (t "• open recursion")
+             (vl-append (t "• facilitating communication")
+                        (hbl-append (ghost (t "• ")) (t "between cases"))))
+            (blank 20 0))
+           (blank 0 20)
+           (vl-append (t "The overall transformation")
+                      (t "is implicit in the cases"))
+           (blank 0 100))))
 
     (define (compiler/code n)
       (hc-append (inset
@@ -128,7 +129,7 @@
                                   (inset clause
                                          0 (* n extra-space)
                                          0 (* n extra-space)))))))
-                  20)
+                  20 20 40 20) ;; why we need an extra 20 to the right I have no idea
                  (inset (clip (inset (cellophane things-to-do (if (= n-b5 1) 1 0))
                                      0 0 (- (* (pict-width things-to-do) (- 1 n-b5))) 0))
                         -20 0 0 0)))
@@ -169,8 +170,10 @@
      (add-line-from-if-case-to-and-case
       (add-line-from-and-case-to-if-case
        (add-line-to-if-case
-        (show-circle slid-over exp n-a4 n-b5)
-        exp (car clauses) n-b2 n-b5)
+        (show-circle
+         (show-circle slid-over exp n-highlight-exp 0)
+         exp n-a4 n-b5)
+        exp (car clauses) n-a4 n-b5)
        (car clauses) (list-ref clauses 2) n-b4 n-b5)
       (car clauses) (list-ref clauses 2) n-b3 (fast-start n-b4) n-b5)
      (car clauses) (list-ref clauses 4) n-b4 n-b5)))
@@ -355,4 +358,6 @@
          (interpolate (pict-height box1) (pict-height box2) n)))
 
 (module+ main
+  (open-compiler-part1)
+  (slide (t "between"))
   (open-compiler-part2))
