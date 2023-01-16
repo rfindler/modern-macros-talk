@@ -26,49 +26,48 @@
     (play-n (expand-cases-proc #f))))
 
 (define (expand-cases-proc revising-for-eval?)
-  (define (case1 n2a)
-    (htl-append-with-bar
-     #:gap 50
-     #:bar-cellophane n2a
-     (vl-append
-      (expand-call (code (m e ...)))
-      (t "=")
-      (expand-call (f-call (code (m e ...)))))
-     (cellophane
-      (vl-append
-       (expand-call (code m))
-       (t "=")
-       (expand-call (f-call (code m)))) n2a)))
+  (define (combine-case lhs rhs) (vl-append -10 lhs (t "=") rhs))
+  (define case1a
+    (combine-case
+     (expand-call (code (m e ...)))
+     (expand-call (f-call (code (m e ...))))))
+  (define case1b
+    (combine-case
+     (expand-call (code m))
+     (expand-call (f-call (code m)))))
   (define (case2 n)
-    (vl-append
+    (combine-case
      (expand-call (code (let-syntax ([id proc-e]) body-e)))
-     (t "=")
      (expand-call (code body-e)
                   (hbl-append (t "Γ + { ") (code id) (t " → ")
                               (eval-call (code proc-e) n)
                               (t " }")))))
   (define case3
-    (vl-append
+    (combine-case
      (expand-call (code (if e1 e2 e3)))
-     (t "=")
      (code (if e1′ e2′ e3′))))
 
-  (define (where1 n1d)
-    (vl-append
-     40
-     (hbl-append (t "Γ(") (code m) (t ") = ") f-p)
-     (cellophane
-      (vl-append
-       4
-       (blank 0 20)
-       (t "Facilitating macro cooperation:")
-       (hc-append
-        (blank 20 0)
-        (vl-append
-         (hbl-append (t "• Introspect on Γ with ") (tt "syntax-local-value"))
-         (hbl-append (t "• Use ")
-                     (tt "local-expand") (t " to get IR from ") (it "inside") (t " a macro")))))
-      n1d)))
+  (define where1a 
+    (hbl-append (t "Γ(") (code m) (t ") = ") f-p))
+
+  (define where1b
+    (add-box-around
+     (vl-append
+      4
+      (t "Facilitating macro cooperation:")
+      (hc-append
+       (blank 20 0)
+       (vl-append
+        8
+        (vl-append (t "• Introspect on Γ with")
+                   (hbl-append (ghost (t "• ")) (tt "syntax-local-value")))
+        (vl-append (hbl-append (t "• Use ")
+                               (tt "local-expand")
+                               (t " to get"))
+                   (hbl-append (ghost (t "• "))
+                               (t " IR from ")
+                               (it "inside")
+                               (t " a macro"))))))))
 
   (define where3
     (vl-append
@@ -85,45 +84,48 @@
          [(1) (- 1 n2a)]
          [(2) (* n2a (- 1 n3))]
          [(3) n3])))
-    (vl-append
 
-     (lt-superimpose (show (t "Case 1: found a macro") 1)
-                     (show (if revising-for-eval?
-                               (colorize (t "So: what about that eval?") "red")
-                               (t "Case 2: found a macro definition"))
-                           2)
-                     (show (t "Case 3: found a core form") 3))
 
-     (blank 0 30)
+    (define where (t "where"))
 
-     (hc-append
-      (blank 40 0)
-      (lt-superimpose
-       (show (case1 n1a) 1)
-       (show (case2 n2b) 2)
-       (show case3 3)))
+    (lt-superimpose
+     
+     (show
+      (vl-append
+       (t "Case 1: found a macro")
+       (blank 0 30)
+       (ht-append 100
+                  case1a
+                  (vl-append where
+                             where1a))
+       (blank 0 30)
+       (htl-append 100
+                   (cellophane case1b n1a)
+                   (cellophane where1b n1b)))
+      1)
 
-     (blank 0 40)
-     (cellophane (t "where") (if (= n3 0) (- 1 n2a) n3))
+     (vl-append
+      (show (if revising-for-eval?
+                (colorize (t "So: what about that eval?") "red")
+                (t "Case 2: found a macro definition"))
+            2)
+      (blank 0 30)
+      (show (case2 n2b) 2))
 
-     (hc-append
-      (blank 40 0)
+     (vl-append
+      (show (t "Case 3: found a core form") 3)
+      (blank 0 30)
+      (show case3 3)
+      (blank 0 40)
+      (show where 3)
+      (hc-append (blank 40 0) (show where3 3))))))
 
-      (lt-superimpose
-       (show (where1 n1b) 1)
-       (show where3 3))))))
-
-(define (htl-append-with-bar #:gap [gap 0] #:bar-cellophane [bar-cellophane 1] p1 p2)
-  (define without-bar (htl-append gap p1 p2))
-  (define extra-v-space 10)
-  (define bar (cellophane (frame (blank 0 (+ extra-v-space (pict-height without-bar) extra-v-space)))
-                          bar-cellophane))
-  (define-values (x y) (lt-find without-bar p2))
-  (pin-over
-   without-bar
-   (- x (/ gap 2))
-   (- extra-v-space)
-   bar))
+(define (add-box-around p)
+  (refocus
+   (cc-superimpose
+    p
+    (colorize (linewidth 4 (frame (ghost (launder (inset p 20))))) "red"))
+   p))
 
 (define (add-a-scope p n)
   (define w (pict-width p))
@@ -157,4 +159,5 @@
               (t "⟦ ") p (t " ⟧")))
 
 (module+ main
+  (expander)
   (slide (expand-case-2-reminder)))
