@@ -83,7 +83,8 @@
 (define (add-and names)
   (let loop ([names names])
     (cond
-      [(null? (cdr names)) (list "and" (car names))]
+      [(null? (cdr names))
+       (list (~a "and " (car names)))]
       [else (cons (car names) (loop (cdr names)))])))
 
 
