@@ -88,37 +88,39 @@
 
     (define where (t "where"))
 
-    (lt-superimpose
+    (vc-append
+     (lt-superimpose
      
-     (show
+      (show
+       (vl-append
+        (t "Case 1: found a macro")
+        (blank 0 30)
+        (ht-append 100
+                   case1a
+                   (vl-append where
+                              where1a))
+        (blank 0 30)
+        (htl-append 100
+                    (cellophane case1b n1a)
+                    (cellophane where1b n1b)))
+       1)
+
       (vl-append
-       (t "Case 1: found a macro")
+       (show (if revising-for-eval?
+                 (colorize (t "So: what about that eval?") "red")
+                 (t "Case 2: found a macro definition"))
+             2)
        (blank 0 30)
-       (ht-append 100
-                  case1a
-                  (vl-append where
-                             where1a))
+       (show (case2 n2b) 2))
+
+      (vl-append
+       (show (t "Case 3: found a core form") 3)
        (blank 0 30)
-       (htl-append 100
-                   (cellophane case1b n1a)
-                   (cellophane where1b n1b)))
-      1)
-
-     (vl-append
-      (show (if revising-for-eval?
-                (colorize (t "So: what about that eval?") "red")
-                (t "Case 2: found a macro definition"))
-            2)
-      (blank 0 30)
-      (show (case2 n2b) 2))
-
-     (vl-append
-      (show (t "Case 3: found a core form") 3)
-      (blank 0 30)
-      (show case3 3)
-      (blank 0 40)
-      (show where 3)
-      (hc-append (blank 40 0) (show where3 3))))))
+       (show case3 3)
+       (blank 0 40)
+       (show where 3)
+       (hc-append (blank 40 0) (show where3 3))))
+     (blank 0 100))))
 
 (define (add-box-around p)
   (refocus

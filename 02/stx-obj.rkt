@@ -46,26 +46,28 @@
   
   (with-title "Syntax Object Data Structure"
     (slide
-     (table
-      3
-      (list (t "stx-obj") (t "=") (t "(setof scope) × properties × tree")
-            (t "tree") (t "=") (t "(listof stx-obj)")
-            (blank) (t "|") (t "bool")
-            (blank) (t "|") (t "symbol")
-            (blank) (t "|") (t "number")
-            (blank) (t "|") (t "⋯")
-            (t "scope") (t "=") (hbl-append (colored-box scope1)
-                                            (t " | ")
-                                            (colored-box scope2)
-                                            (t " | ")
-                                            (colored-box scope3)
-                                            (t " | ")
-                                            (colored-box scope4)
-                                            (t " | ")
-                                            (t "⋯")))
-      (list* rbl-superimpose rbl-superimpose lbl-superimpose)
-      rbl-superimpose
-      10 0)))
+     (vl-append
+      (table
+       3
+       (list (t "stx-obj") (t "=") (t "(setof scope) × properties × tree")
+             (t "tree") (t "=") (t "(listof stx-obj)")
+             (blank) (t "|") (t "bool")
+             (blank) (t "|") (t "symbol")
+             (blank) (t "|") (t "number")
+             (blank) (t "|") (t "⋯")
+             (t "scope") (t "=") (hbl-append (colored-box scope1)
+                                             (t " | ")
+                                             (colored-box scope2)
+                                             (t " | ")
+                                             (colored-box scope3)
+                                             (t " | ")
+                                             (colored-box scope4)
+                                             (t " | ")
+                                             (t "⋯")))
+       (list* rbl-superimpose rbl-superimpose lbl-superimpose)
+       rbl-superimpose
+       10 0)
+      (blank 0 100))))
 
   (with-title "Working with Syntax Objects"
     (pattern-match-and-construct)))
@@ -104,7 +106,8 @@
         main]
        [else
         (add-arrows (cellophane main 0.5)
-                    highlighted-picts)])))
+                    highlighted-picts)])
+     (blank 0 100)))
 
   (go)
   (go #:define #t)

@@ -14,6 +14,8 @@
 (define-runtime-path paper-images "../paper-images")
 (get-current-code-font-size (λ () (current-tt-font-size)))
 
+(define show-bottom-fourth? #f)
+
 (define-syntax-rule
   (with-title title e ...)
   (parameterize ([the-title title])
@@ -23,16 +25,21 @@
  (let ([csa (current-slide-assembler)])
    (λ (_t vs content)
      (define title (the-title))
+     (define bkg
+       (vl-append (blank client-w (* 3/4 client-h))
+                  (colorize (filled-rectangle client-w (* 1/4 client-h)) "pink")))
      (define titleless (csa _t vs content))
-     (cond
-       [title
-        (define title-text-pict (colorize (t title) "white"))
-        (define rect
-          (colorize (filled-rounded-rectangle
-                     (+ (pict-width title-text-pict) 40)
-                     (+ (pict-height title-text-pict) 10))
-                    "black"))
-        (ct-superimpose
-         (rt-superimpose (blank client-w 0) (inset (cc-superimpose rect title-text-pict) 0 0 40 0))
-         titleless)]
-       [else titleless]))))
+     (ct-superimpose
+      (if show-bottom-fourth? bkg (blank))
+      (cond
+        [title
+         (define title-text-pict (colorize (t title) "white"))
+         (define rect
+           (colorize (filled-rounded-rectangle
+                      (+ (pict-width title-text-pict) 40)
+                      (+ (pict-height title-text-pict) 10))
+                     "black"))
+         (ct-superimpose
+          (rt-superimpose (blank client-w 0) (inset (cc-superimpose rect title-text-pict) 0 0 40 0))
+          titleless)]
+        [else titleless])))))

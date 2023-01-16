@@ -19,17 +19,18 @@
    (λ (n)
      (cb-superimpose
       (expand-case-2-reminder)
-      (cellophane
-       (vl-append
-        10
-        (t "Sidebar:")
-        (hc-append (blank 30 0)
-                   (vl-append
-                    10
-                    (code (let-syntax ([id proc-e]) body-e))
-                    (t "vs")
-                    (code (define-syntax id proc-e)))))
-       n)))))
+      (inset (cellophane
+              (vl-append
+               10
+               (t "Sidebar:")
+               (hc-append (blank 30 0)
+                          (vl-append
+                           10
+                           (code (let-syntax ([id proc-e]) body-e))
+                           (t "vs")
+                           (code (define-syntax id proc-e)))))
+              n)
+             0 0 0 100)))))
 
 (define (dependencies-motivation)
   (define space (blank (* client-w 3/4) (* client-h 1/2)))
@@ -113,7 +114,8 @@
            6
            (frame
             (blank (+ (* client-w .3) (* i 60))
-                   (* (pict-height words) 1.8)))))))))))
+                   (* (pict-height words) 1.8)))))))
+      (blank 0 60)))))
 
 (define (show-the-requires)
   (play-n
@@ -179,4 +181,4 @@
       lt-find
       (fade-in-pointer (cellophane syntax-parse (interpolate 1 .5 n2)) (* n1 (- 1 n2)))))))
 
-(module+ main (module-system))
+(module+ main (let-stx-vs-def-stx))

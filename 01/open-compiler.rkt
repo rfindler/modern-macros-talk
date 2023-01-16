@@ -58,14 +58,14 @@
       (list (code [(if a b c) (if (compile a #,maybe-Γ)
                                   (compile b #,maybe-Γ)
                                   (compile c #,maybe-Γ))])
-            (code [(+ a ...) (+ (compile a #,maybe-Γ) ...)])
-            (code [(and a b) (compile (if a b #f) #,maybe-Γ)])
             (code [(or a b) (compile (let ([x a])
                                        (if x x b)) #,maybe-Γ)])
+            (code [(and a b) (compile (if a b #f) #,maybe-Γ)])
+            (code [(+ a ...) (+ (compile a #,maybe-Γ) ...)])
             (code [(let ([x a]) b) (let ([x (compile a #,maybe-Γ)])
                                      (compile b #,maybe-Γ))])))
 
-    (define or-clause-index 3)
+    (define or-clause-index 1)
      
     (define fading-for-non-or-clauses (interpolate 1 .1 n-fade-except-or))
     (define clauses
