@@ -45,7 +45,9 @@
   (define case3
     (combine-case
      (expand-call (code (if e1 e2 e3)))
-     (code (if e1′ e2′ e3′))))
+     (code (if #,(expand-call (code e1))
+               #,(expand-call (code e2))
+               #,(expand-call (code e3))))))
 
   (define where1a 
     (hbl-append (t "Γ(") (code m) (t ") = ") f-p))
@@ -56,7 +58,7 @@
       4
       (t "Facilitating macro cooperation:")
       (hc-append
-       (blank 20 0)
+       (blank 40 0)
        (vl-append
         8
         (vl-append (t "• Introspect on Γ with")
@@ -68,12 +70,6 @@
                                (t " IR from ")
                                (it "inside")
                                (t " a macro"))))))))
-
-  (define where3
-    (vl-append
-     (hbl-append (code e1′) (t " = ") (expand-call (code e1)))
-     (hbl-append (code e2′) (t " = ") (expand-call (code e2)))
-     (hbl-append (code e3′) (t " = ") (expand-call (code e3)))))
 
   (λ (n1a n1b n2a n2b n3)
 
@@ -116,10 +112,7 @@
       (vl-append
        (show (t "Case 3: found a core form") 3)
        (blank 0 30)
-       (show case3 3)
-       (blank 0 40)
-       (show where 3)
-       (hc-append (blank 40 0) (show where3 3))))
+       (show case3 3)))
      (blank 0 100))))
 
 (define (add-box-around p)
