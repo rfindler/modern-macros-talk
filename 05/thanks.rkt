@@ -10,31 +10,54 @@
                      plt-background-color)
            (- margin)))
   (play-n
-   (λ (n)
+   #:steps (cons 30 10)
+   (λ (n2-n3 n4)
+     (define-values (n2 n3) (split-phase n2-n3))
      (define sorawee (mk-pict+string "Sorawee Porncharoenwase"))
      (cc-superimpose
       (refocus (lt-superimpose
                 bkg
                 (inset plt-title-background 400 300 0 0))
                bkg)
-      (add-background-on-name
-       (vl-append
-        60
-        (folks "Macro Paper Authors"
-               "Matthew Flatt" "Matthias Felleisen"
-               "Daniel P. Freidman" "Bruce Duba"
-               "William Clinger" "Jonathan Rees"
-               "R. Kent Dybvig" "Robert Hieb"
-               "Carl Bruggeman" "Mitchell Wand"
-               "Eugene E. Kohlbecker"
-               "Ryan Culpepper" "Michael Ballantyne"
-               "Alexis King" "Timothy P. Hart")
-        (folks "Language Authors"
-               sorawee
-               "Jesse Tov" "Spencer Florence"
-               "Stephen Chang" "Alex Knauth"
-               "Sam Tobin-Hochstadt"))
-       sorawee n)))))
+      (hc-append
+       60
+       (scale
+        (vc-append
+         4
+         (vc-append -4
+                    (t "Modern")
+                    (t "Macros"))
+         (t "are an")
+         (vc-append -4
+                    (t "Open")
+                    (t "Compiler")))
+        3)
+
+       (cellophane
+        (hide-left
+         (add-background-on-name
+          (vl-append
+           60
+           (folks "Macro Paper Authors"
+                  "Matthew Flatt" "Matthias Felleisen"
+                  "Daniel P. Freidman" "Bruce Duba"
+                  "William Clinger" "Jonathan Rees"
+                  "R. Kent Dybvig" "Robert Hieb"
+                  "Carl Bruggeman" "Mitchell Wand"
+                  "Eugene E. Kohlbecker"
+                  "Ryan Culpepper" "Michael Ballantyne"
+                  "Alexis King" "Timothy P. Hart")
+           (folks "Language Authors"
+                  sorawee
+                  "Jesse Tov" "Spencer Florence"
+                  "Stephen Chang" "Alex Knauth"
+                  "Sam Tobin-Hochstadt"))
+          sorawee n4)
+         n2)
+        n3))))))
+
+(define (hide-left p n)
+  (clip (inset p 0 0 (* (- 1 n) (- (pict-width p))) 0)))
 
 (define (add-background-on-name main p+s n)
   (define p (t (pict+string-string p+s)))
