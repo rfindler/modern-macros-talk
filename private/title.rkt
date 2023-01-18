@@ -1,9 +1,7 @@
-#lang scheme/base
+#lang racket
 
-(require (except-in slideshow #;printable<%>)
-         scheme/gui/base
-         scheme/class
-         scheme/math)
+(require slideshow
+         racket/gui/base)
   
   (provide plt-title-background
            make-plt-title-background
