@@ -1,7 +1,8 @@
 #lang racket
-(require "../lib/setup.rkt" "../lib/util.rkt" slideshow/play slideshow
-         "../stolen-from-mflatt/scope.rkt"
-         "../stolen-from-mflatt/code.rkt"
+(require "setup.rkt" "util.rkt"
+         "from-mflatt/scope.rkt"
+         "from-mflatt/code.rkt"
+         slideshow/play slideshow
          slideshow/code)
 
 

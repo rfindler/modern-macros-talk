@@ -1,6 +1,6 @@
 #lang racket
 (require slideshow slideshow/code slideshow/play
-         "../lib/setup.rkt" "../lib/util.rkt")
+         "setup.rkt" "util.rkt")
 (provide existing-cool-things)
 
 (define (existing-cool-things)

@@ -1,13 +1,13 @@
 #lang racket
-(require "lib/setup.rkt"
-         "01/01.rkt"
-         "01/open-compiler.rkt"
-         "02/stx-obj.rkt"
-         "02/expander.rkt"
-         "02/module.rkt"
-         "03/existing-cool-things.rkt"
-         "04/ide-cool-things.rkt"
-         "05/thanks.rkt"
+(require "private/setup.rkt"
+         "private/introduction.rkt"
+         "private/open-compiler.rkt"
+         "private/stx-obj.rkt"
+         "private/expander.rkt"
+         "private/module.rkt"
+         "private/existing-cool-things.rkt"
+         "private/ide-cool-things.rkt"
+         "private/thanks.rkt"
          slideshow)
 
 (introduction)

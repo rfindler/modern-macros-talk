@@ -1,5 +1,5 @@
 #lang racket
-(require "../lib/setup.rkt" "../lib/util.rkt"
+(require "setup.rkt" "util.rkt"
          "deepest-pkg-paths.rkt"
          "expander.rkt"
          slideshow slideshow/play slideshow/code)

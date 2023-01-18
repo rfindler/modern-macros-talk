@@ -1,5 +1,5 @@
 #lang racket
-(require "../lib/setup.rkt" "../lib/util.rkt" "../stolen-from-mflatt/code.rkt"
+(require "setup.rkt" "util.rkt" "from-mflatt/code.rkt"
          slideshow slideshow/play slideshow/code)
 (provide expander expand-case-2-reminder)
 

@@ -1,7 +1,7 @@
 #lang racket
-(require "../lib/setup.rkt"
-         "../lib/util.rkt"
-         "../lib/title.rkt"
+(require "setup.rkt"
+         "util.rkt"
+         "title.rkt"
          "open-compiler.rkt"
          racket/gui/base
          slideshow slideshow/play pict/shadow)

@@ -1,6 +1,6 @@
 #lang racket
-(require "../lib/setup.rkt"
-         "../lib/util.rkt"
+(require "setup.rkt"
+         "util.rkt"
          slideshow
          slideshow/play
          slideshow/code)
