@@ -11,7 +11,7 @@
 (current-tt-font '(bold . "Inconsolata"))
 (current-tt-font-size (+ (current-font-size) 6))
 (current-main-font (check-font "Lato"))
-(define-runtime-path paper-images "../paper-images")
+(define-runtime-path paper-images "paper-images")
 (get-current-code-font-size (λ () (current-tt-font-size)))
 
 (define show-bottom-fourth? #f)
