@@ -2,7 +2,8 @@
 
 (define collection "modern-macros-talk")
 (define deps '("base"
-               "draw-lib" "gui-lib" "pict-lib" "slideshow-lib"
+               "draw-lib" "gui-lib" "pict-lib"
+               ["slideshow-lib" #:version "1.9"]
                "drracket-tool-lib"
                "reactor" "datalog"
                "recursive-language" "redex-gui-lib"  "dssl2"
