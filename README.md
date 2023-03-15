@@ -1,6 +1,6 @@
 # Modern Macros
 
-Keynote at [PADL 2023](https://popl23.sigplan.org/home/PADL-2023)
+Keynote given at [PADL 2023](https://popl23.sigplan.org/home/PADL-2023); see also the [recording on youtube](https://youtu.be/YMUCpx6vhZM).
 
 ## Citations from the beginning of the talk:
 
