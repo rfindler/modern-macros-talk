@@ -4,7 +4,7 @@ Keynote given at [PADL 2023](https://popl23.sigplan.org/home/PADL-2023); see als
 
 Discussion is welcomed at [[PADL’23] Modern Macros](https://racket.discourse.group/t/padl23-modern-macros/1805) on the Racket Discussions forum.
 
-## Citations:
+## Citations
 
 From the beginning of the talk:
 
@@ -21,3 +21,7 @@ From the beginning of the talk:
 The paper mentioned at approximately 22:06 is:
 
 - Michael Ballantyne, Alexis King, and Matthias Felleisen. 2020. *Macros for domain-specific languages*. Proc. ACM Program. Lang. 4, OOPSLA, Article 229 (November 2020), 29 pages. https://doi.org/10.1145/3428297; See also [ee-lib](https://docs.racket-lang.org/ee-lib/).
+
+## Acknowledgments
+
+A special thanks to Shu-Hung You, Matthew Flatt, Christos Dimoulas, and Matthias Felleisen for their feedback on early drafts of this talk.
